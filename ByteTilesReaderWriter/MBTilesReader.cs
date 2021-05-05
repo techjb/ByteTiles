@@ -39,9 +39,9 @@ namespace ByteTilesReaderWriter
             return JsonSerializer.Serialize(dictionary);            
         }
 
-        public List<MBTilesRow> GetTiles()
+        public List<RowTiles> GetTiles()
         {
-            List<MBTilesRow> list = new();            
+            List<RowTiles> list = new();            
             try
             {
                 using SQLiteConnection connection = new(string.Format("Data Source={0};Version=3;", File));
@@ -55,14 +55,62 @@ namespace ByteTilesReaderWriter
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    var mbTileRow = new MBTilesRow()
-                    {
-                        Zoom_level = (long)reader["zoom_level"],
-                        Tile_column = (long)reader["tile_column"],
-                        Tile_row = (long)reader["tile_row"],
-                        Tile_data = reader["tile_data"] as byte[],
-                    };
+                    var mbTileRow = new RowTiles(reader);
                     list.Add(mbTileRow);
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+            return list;
+        }
+
+        public List<RowGrids> GetGrids()
+        {
+            List<RowGrids> list = new();
+            try
+            {
+                using SQLiteConnection connection = new(string.Format("Data Source={0};Version=3;", File));
+                connection.Open();
+                string query = "SELECT * FROM grids;";
+                using SQLiteCommand command = new()
+                {
+                    Connection = connection,
+                    CommandText = query
+                };
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    var row = new RowGrids(reader);
+                    list.Add(row);
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+            return list;
+        }
+
+        public List<RowGridData> GetGridData()
+        {
+            List<RowGridData> list = new();
+            try
+            {
+                using SQLiteConnection connection = new(string.Format("Data Source={0};Version=3;", File));
+                connection.Open();
+                string query = "SELECT * FROM grid_data;";
+                using SQLiteCommand command = new()
+                {
+                    Connection = connection,
+                    CommandText = query
+                };
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    var row = new RowGridData(reader);
+                    list.Add(row);
                 }
             }
             catch (Exception exception)
