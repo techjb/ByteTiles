@@ -12,24 +12,24 @@ namespace ByteTilesReaderWriter
 
         public static void ParseMbtiles(string inputFile, string outputFile)
         {
-            MBTilesProvider mbTilesProvides = new(inputFile);            
-            Parse(mbTilesProvides, outputFile);
+            MBTilesReader mBTilesReader = new(inputFile);            
+            Parse(mBTilesReader, outputFile);
         }
 
-        static void Parse(MBTilesProvider mbTilesProvides, string outputFile)
+        static void Parse(MBTilesReader mBTilesReader, string outputFile)
         {
             File.Delete(outputFile);
             long position = 0;
             int counter = 0;
-            List<MBTilesRow> list = mbTilesProvides.GetTiles();
-            int total = list.Count;
             string percentageDone = string.Empty;
             Dictionary<string, string> dictionaryMap = new();
+            List<MBTilesRow> list = mBTilesReader.GetTiles();
+            int total = list.Count;                        
             object sync = new();
             using (var fileStream = new FileStream(outputFile, FileMode.Append, FileAccess.Write))
             {
                 Parallel.ForEach(list,
-                    new ParallelOptions() { MaxDegreeOfParallelism = 1 }, 
+                    //new ParallelOptions() { MaxDegreeOfParallelism = 1 }, 
                     mBTilesRow =>
                     {
                         byte[] byteArray = mBTilesRow.Tile_data;
@@ -55,11 +55,14 @@ namespace ByteTilesReaderWriter
                     });
 
                 string dictionary = JsonSerializer.Serialize(dictionaryMap);
-                byte[] bytes = Encoding.ASCII.GetBytes(dictionary);
+                byte[] bytes = Encoding.UTF8.GetBytes(dictionary);
                 fileStream.Write(bytes, 0, bytes.Length);
             }
-            string dictionaryPosition = position.ToString().PadRight(20, ' ');
-            File.AppendAllText(outputFile, dictionaryPosition);
+
+            string metadata = mBTilesReader.GetMetadata();
+
+            string startPosition = position.ToString().PadRight(20, ' ');
+            File.AppendAllText(outputFile, startPosition);
         }
     }
 }
