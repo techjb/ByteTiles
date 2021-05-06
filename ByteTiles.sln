@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteTilesReaderWriter", "ByteTilesReaderWriter\ByteTilesReaderWriter.csproj", "{1757019C-8BCF-4D6F-B3EC-74A6BED90086}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteTilesReaderWriter", "ByteTilesReaderWriter\ByteTilesReaderWriter.csproj", "{1757019C-8BCF-4D6F-B3EC-74A6BED90086}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteTilesReaderWriter_Test", "ByteTilesReaderWriter_Test\ByteTilesReaderWriter_Test.csproj", "{661143BC-0EC8-4165-93E8-BB5930D08EDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteTilesReaderWriter_Test", "ByteTilesReaderWriter_Test\ByteTilesReaderWriter_Test.csproj", "{661143BC-0EC8-4165-93E8-BB5930D08EDC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleByteTilesServer", "SimpleByteTilesServer\SimpleByteTilesServer.csproj", "{CD7C9064-97E8-4242-8B86-B887FD21F6FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{661143BC-0EC8-4165-93E8-BB5930D08EDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{661143BC-0EC8-4165-93E8-BB5930D08EDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{661143BC-0EC8-4165-93E8-BB5930D08EDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD7C9064-97E8-4242-8B86-B887FD21F6FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD7C9064-97E8-4242-8B86-B887FD21F6FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD7C9064-97E8-4242-8B86-B887FD21F6FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD7C9064-97E8-4242-8B86-B887FD21F6FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

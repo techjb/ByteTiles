@@ -35,9 +35,14 @@ namespace ByteTilesReaderWriter
         public byte [] GetTile(int zoom, int column, int row)
         {
             string tileKey = zoom + "/" + column + "/" + row;
+            return GetTile(tileKey);
+        }
+
+        public byte [] GetTile(string tileKey)
+        {
             byte[] bytes = Array.Empty<byte>();
             Dictionary<string, string> keyValuePairs = GetTilesDictionary();
-            if (keyValuePairs.ContainsKey(tileKey))
+            if (keyValuePairs.ContainsKey(tileKey)) 
             {
                 string byteRange = keyValuePairs[tileKey];
                 bytes = GetData(byteRange);
