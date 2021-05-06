@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using ByteTilesReaderWriter;
 
 namespace ByteTilesReaderWriter_Test
@@ -10,32 +12,40 @@ namespace ByteTilesReaderWriter_Test
 
         static void Main(string[] args)
         {
-            //WriteByteTilesFile1("Europolis");
-            //WriteByteTilesFile2("satellite-lowres-v1.2-z0-z5");
+            //WriteByteTilesFile("Europolis");
+            //WriteByteTilesFile("satellite-lowres-v1.2-z0-z5");
+            //WriteByteTilesFile("countries");
 
-            ReadByteTilesFile1("Europolis");
+            ReadByteTilesFile("Europolis");
+            //ReadByteTilesFile("satellite-lowres-v1.2-z0-z5");
+            //ReadByteTilesFile("countries");
         }
 
-        static void WriteByteTilesFile1(string file)
+        static void WriteByteTilesFile(string file)
         {
             string input = path + file + ".mbtiles";
             string output = path + file + ".bytetiles";
             ByteTilesWriter.ParseMbtiles(input, output);
         }
 
-        static void WriteByteTilesFile2(string file)
-        {
-            string input = path + file + ".mbtiles";
-            string output = path + file + ".bytetiles";
-            ByteTilesWriter.ParseMbtiles(input, output);            
-        }
-
-        static void ReadByteTilesFile1(string file)
+        static void ReadByteTilesFile(string file)
         {
             string input = path + file + ".bytetiles";
             var byteTilesReader = new ByteTilesReader(input);
-            var byteTilesMetadata = byteTilesReader.GetByteTilesMetadata();
+
             string metadata = byteTilesReader.GetMetadata();
+            string json = JsonSerializer.Deserialize<dynamic>(metadata);
+            Console.WriteLine(json);
+
+            var dictionary = byteTilesReader.GetTilesDictionary();
+            foreach (KeyValuePair<string, string> entry in dictionary)
+            {
+                Console.WriteLine(entry.Key + " - " + entry.Value);
+            }
+
+            byte[] byteArray = byteTilesReader.GetTile(16,32060,40846);
+            string text = System.Text.Encoding.Default.GetString(byteArray);
+            Console.WriteLine(text);
         }
     }
 }

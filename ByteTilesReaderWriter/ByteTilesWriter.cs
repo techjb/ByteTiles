@@ -12,7 +12,7 @@ namespace ByteTilesReaderWriter
         static long Position;
         const int StartByteLength = 20;
         static string OutputFile;
-        static ByteTilesMetadata byteTilesMetadata;
+        static ByteRangeMetadata byteTilesMetadata;
         
         public static void ParseMbtiles(string inputFile, string outputFile)
         {
@@ -20,12 +20,11 @@ namespace ByteTilesReaderWriter
             Position = 0;
             OutputFile = outputFile;
             File.Delete(OutputFile);
-            byteTilesMetadata = new ByteTilesMetadata();
+            byteTilesMetadata = new ByteRangeMetadata();
 
             using (var fileStream = new FileStream(OutputFile, FileMode.Append, FileAccess.Write))
             {
                 WriteTableTiles(mBTilesReader, fileStream);
-
                 WriteTableMetadata(mBTilesReader, fileStream);
                 WriteByteTilesMetadata(fileStream);
             }                
@@ -75,8 +74,8 @@ namespace ByteTilesReaderWriter
 
             string dictionary = JsonSerializer.Serialize(dictionaryMap);
             byte[] bytes = Encoding.UTF8.GetBytes(dictionary);
-            fileStream.Write(bytes, 0, bytes.Length);            
-            byteTilesMetadata.TilesDictionary = Tuple.Create(Position, bytes.Length);
+            fileStream.Write(bytes, 0, bytes.Length);
+            byteTilesMetadata.SetTilesDictionary(Position, bytes.Length);            
             Position += bytes.Length;
         }
 
@@ -89,7 +88,7 @@ namespace ByteTilesReaderWriter
             }
             byte[] bytes = Encoding.UTF8.GetBytes(medatata);
             fileStream.Write(bytes, 0, bytes.Length);
-            byteTilesMetadata.MetaData = Tuple.Create(Position, bytes.Length);
+            byteTilesMetadata.SetMetadata(Position, bytes.Length);
             Position += bytes.Length;
         }
 
