@@ -32,17 +32,28 @@ namespace ByteTilesReaderWriter
             return JsonSerializer.Deserialize<Dictionary<string, string>>(json);
         }
 
-        public byte [] GetTile(int zoom, int column, int row)
+        public byte[] GetTile(int z, int y, int x)
         {
-            string tileKey = zoom + "/" + column + "/" + row;
+            string tileKey = z + "/" + y + "/" + x;
             return GetTile(tileKey);
         }
 
-        public byte [] GetTile(string tileKey)
+        public byte[] GetTile(string tileKey)
         {
-            byte[] bytes = Array.Empty<byte>();
             Dictionary<string, string> keyValuePairs = GetTilesDictionary();
-            if (keyValuePairs.ContainsKey(tileKey)) 
+            return GetTile(tileKey, keyValuePairs);
+        }
+
+        public byte[] GetTile(int z, int y, int x, Dictionary<string, string> keyValuePairs)
+        {
+            string tileKey = z + "/" + y + "/" + x;
+            return GetTile(tileKey, keyValuePairs);
+        }
+
+        public byte[] GetTile(string tileKey, Dictionary<string, string> keyValuePairs)
+        {
+            byte[] bytes = Array.Empty<byte>();            
+            if (keyValuePairs.ContainsKey(tileKey))
             {
                 string byteRange = keyValuePairs[tileKey];
                 bytes = GetData(byteRange);

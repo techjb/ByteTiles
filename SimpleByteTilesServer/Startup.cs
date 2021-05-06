@@ -1,13 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ByteTilesReaderWriter;
 
 namespace SimpleByteTilesServer
 {
@@ -25,7 +22,7 @@ namespace SimpleByteTilesServer
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMemoryCache memoryCache)
         {
             if (env.IsDevelopment())
             {
@@ -40,7 +37,21 @@ namespace SimpleByteTilesServer
             {
                 endpoints.MapControllers();
             });
+
+            CacheData(memoryCache);
         }
 
+        private void CacheData(IMemoryCache memoryCache)
+        {
+            CacheTilesDictionary(memoryCache, "countries");
+        }
+
+        private static void CacheTilesDictionary(IMemoryCache memoryCache, string fileName)
+        {
+            string filePath = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\" + fileName + ".bytetiles";
+            ByteTilesReader byteTilesReader = new(filePath);
+            Dictionary<string, string> dictionary = byteTilesReader.GetTilesDictionary();
+            memoryCache.Set(fileName, dictionary);
+        }
     }
 }

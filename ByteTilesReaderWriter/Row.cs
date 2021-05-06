@@ -1,4 +1,5 @@
-﻿using System.Data.SQLite;
+﻿using System;
+using System.Data.SQLite;
 
 namespace ByteTilesReaderWriter
 {
@@ -16,8 +17,9 @@ namespace ByteTilesReaderWriter
         }
         public string TileKey()
         {
-            //long tile_row_aux = (long)Math.Pow(2, Zoom_level) - Tile_row - 1; // from tms to google maps
-            return Zoom_level + "/" + Tile_column + "/" + Tile_row;
+            long tile_row_aux = (long)Math.Pow(2, Zoom_level) - Tile_row - 1; // from tms to google maps
+            return Zoom_level + "/" + Tile_column + "/" + tile_row_aux;
+            //return Zoom_level + "/" + Tile_column + "/" + Tile_row;
         }
     }
 }

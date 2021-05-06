@@ -14,9 +14,9 @@ namespace ByteTilesReaderWriter_Test
         {
             //WriteByteTilesFile("Europolis");
             //WriteByteTilesFile("satellite-lowres-v1.2-z0-z5");
-            //WriteByteTilesFile("countries");
+            WriteByteTilesFile("countries");
 
-            ReadByteTilesFile("Europolis");
+            //ReadByteTilesFile("Europolis");
             //ReadByteTilesFile("satellite-lowres-v1.2-z0-z5");
             //ReadByteTilesFile("countries");
         }
