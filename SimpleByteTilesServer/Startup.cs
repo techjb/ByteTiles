@@ -5,6 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using ByteTilesReaderWriter;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.Linq;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace SimpleByteTilesServer
 {
@@ -15,9 +20,19 @@ namespace SimpleByteTilesServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            services.AddResponseCompression();
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
+                    {
+                        "application/x-protobuf",
+                        "image/png",
+                        "image/jpeg",
+                    });
+            });
             services.AddMemoryCache();
-
         }
 
 
@@ -31,19 +46,34 @@ namespace SimpleByteTilesServer
 
             app.UseRouting();
 
-            app.UseStaticFiles();            
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "static")),
+                RequestPath = "/static",
+                ContentTypeProvider = new FileExtensionContentTypeProvider()
+            });
+
+            app.UseResponseCompression();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            CacheData(memoryCache);
+            CacheTilesDictionaries(memoryCache);
         }
 
-        private void CacheData(IMemoryCache memoryCache)
+        private static void CacheTilesDictionaries(IMemoryCache memoryCache)
         {
-            CacheTilesDictionary(memoryCache, "countries");
+            CacheTilesDictionary(memoryCache, "countries-vector");
+            CacheTilesDictionary(memoryCache, "countries-raster");
+            CacheTilesDictionary(memoryCache, "europolis");
+            CacheTilesDictionary(memoryCache, "satellite-lowres");
         }
 
         private static void CacheTilesDictionary(IMemoryCache memoryCache, string fileName)

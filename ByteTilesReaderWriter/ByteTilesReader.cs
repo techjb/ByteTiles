@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace ByteTilesReaderWriter
 {
     public class ByteTilesReader
     {
         private readonly string InputFile;
-        private const int StartByteLength = 20;
+        private const int StartByteLength = 40;
         private readonly ByteRangeMetadata ByteRangeMetadata;
 
         public ByteTilesReader(string inputFile)
@@ -19,10 +21,11 @@ namespace ByteTilesReaderWriter
             ByteRangeMetadata = new ByteRangeMetadata(json);
         }
 
-        public string GetMetadata()
+        public Dictionary<string, string> GetMetadata()
         {
             byte[] byteArray = GetData(ByteRangeMetadata.MetaData);
-            return Encoding.UTF8.GetString(byteArray);
+            string metadata = Encoding.UTF8.GetString(byteArray);
+            return JsonSerializer.Deserialize<Dictionary<string, string>>(metadata);
         }
 
         public Dictionary<string, string> GetTilesDictionary()
@@ -55,27 +58,18 @@ namespace ByteTilesReaderWriter
             byte[] bytes = Array.Empty<byte>();            
             if (keyValuePairs.ContainsKey(tileKey))
             {
-                string byteRange = keyValuePairs[tileKey];
+                ByteRange byteRange = new(keyValuePairs[tileKey]);
                 bytes = GetData(byteRange);
             }
             return bytes;
         }
 
-        private byte[] GetData(string byteRange) 
+        private byte[] GetData(ByteRange byteRange)
         {
-            string[] values = byteRange.Split("/");
-            long item1 = long.Parse(values[0]);
-            int item2 = int.Parse(values[1]);
-            var tuple = Tuple.Create(item1, item2);
-            return GetData(tuple);
-        }
-
-        private byte[] GetData(Tuple<long, int> tuple)
-        {
-            byte[] byteArray = new byte[tuple.Item2];
+            byte[] byteArray = new byte[byteRange.Length];
             using FileStream fileStream = new(InputFile, FileMode.Open, FileAccess.Read);
-            fileStream.Seek(tuple.Item1, SeekOrigin.Begin);
-            fileStream.Read(byteArray, 0, tuple.Item2);
+            fileStream.Seek(byteRange.Position, SeekOrigin.Begin);
+            fileStream.Read(byteArray, 0, byteRange.Length);
             return byteArray;
         }
 
@@ -85,14 +79,75 @@ namespace ByteTilesReaderWriter
             byte[] byteArray = new byte[StartByteLength];
             fileStream.Seek(-StartByteLength, SeekOrigin.End);
             fileStream.Read(byteArray, 0, StartByteLength);
-            string byteTilesMetadataPosition = Encoding.UTF8.GetString(byteArray).Trim();
-            long position = long.Parse(byteTilesMetadataPosition);
-            int length = (int)(fileStream.Length - position - StartByteLength);
+            string byteRangeMetadata = Encoding.UTF8.GetString(byteArray).Trim();
+            ByteRange byteRange = new (byteRangeMetadata);
 
-            byteArray = new byte[length];
-            fileStream.Seek(position, SeekOrigin.Begin);
-            fileStream.Read(byteArray, 0, length);
+            byteArray = new byte[byteRange.Length];
+            fileStream.Seek(byteRange.Position, SeekOrigin.Begin);
+            fileStream.Read(byteArray, 0, byteRange.Length);
             return Encoding.UTF8.GetString(byteArray);            
+        }
+
+        public void ExtractTiles(string path)
+        {
+            path += Path.GetFileNameWithoutExtension(InputFile) + "\\";
+            if (Directory.Exists(path))
+            {
+                DeleteDirectory(path);
+            }            
+
+            var keyValuePairs = GetMetadata();
+            string format = keyValuePairs["format"];
+
+            var tilesDictionary = GetTilesDictionary();
+            Parallel.ForEach(tilesDictionary, keyValuePair => 
+            {
+                ByteRange byteRange = new(keyValuePair.Value);
+                byte[] bytes = GetData(byteRange);
+                if (format.Equals("pbf"))
+                {
+                    bytes = Decompress(bytes);
+                }
+                string[] keys = keyValuePair.Key.Split('/');
+                string directory = path + keys[0] + "\\" + keys[1] + "\\";
+                Directory.CreateDirectory(directory);
+                string file = directory + keys[2] + "." + format;
+                File.WriteAllBytes(file, bytes);
+            });            
+        }
+
+        private static void DeleteDirectory(string path)
+        {
+            DirectoryInfo directoryInfo = new(path);
+
+            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
+            {
+                fileInfo.Delete();
+            }
+            foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
+            {
+                dir.Delete(true);
+            }
+            directoryInfo.Delete(true);
+        }
+
+        public static byte[] Decompress(byte[] byteArray)
+        {
+            MemoryStream memoryStream = new(byteArray);
+            GZipStream gZipStream = new(memoryStream, CompressionMode.Decompress, true);
+            List<byte> bytes = new();
+
+            int bytesRead = gZipStream.ReadByte();
+            while (bytesRead != -1)
+            {
+                bytes.Add((byte)bytesRead);
+                bytesRead = gZipStream.ReadByte();
+            }
+            gZipStream.Flush();
+            memoryStream.Flush();
+            gZipStream.Close();
+            memoryStream.Close();
+            return bytes.ToArray();
         }
     }
 }

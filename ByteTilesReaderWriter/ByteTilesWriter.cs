@@ -10,9 +10,9 @@ namespace ByteTilesReaderWriter
     public class ByteTilesWriter
     {
         static long Position;
-        const int StartByteLength = 20;
+        const int StartByteLength = 40;
         static string OutputFile;
-        static ByteRangeMetadata byteTilesMetadata;
+        static ByteRangeMetadata byteRangeMetadata;
         
         public static void ParseMbtiles(string inputFile, string outputFile)
         {
@@ -20,16 +20,13 @@ namespace ByteTilesReaderWriter
             Position = 0;
             OutputFile = outputFile;
             File.Delete(OutputFile);
-            byteTilesMetadata = new ByteRangeMetadata();
+            byteRangeMetadata = new ByteRangeMetadata();
 
-            using (var fileStream = new FileStream(OutputFile, FileMode.Append, FileAccess.Write))
-            {
-                WriteTableTiles(mBTilesReader, fileStream);
-                WriteTableMetadata(mBTilesReader, fileStream);
-                WriteByteTilesMetadata(fileStream);
-            }                
-
-            WriteStartByte();
+            using var fileStream = new FileStream(OutputFile, FileMode.Append, FileAccess.Write);
+            WriteTableTiles(mBTilesReader, fileStream);
+            WriteTableMetadata(mBTilesReader, fileStream);
+            ByteRange byteRange = WriteByteRangeMetadata(fileStream);
+            WriteStartByte(fileStream, byteRange);
         }
        
         static void WriteTableTiles(MBTilesReader mBTilesReader, FileStream fileStream)
@@ -39,7 +36,7 @@ namespace ByteTilesReaderWriter
             {
                 return;
             }
-            int counter = 0;
+            //int counter = 0;
             Position = 0;
             string percentageDone = string.Empty;                    
 
@@ -61,21 +58,21 @@ namespace ByteTilesReaderWriter
                         dictionaryMap.Add(tileKey, positionAndLength);
                         Position += length;
 
-                        counter++;
-                        double percentage = counter * 100 / total;
-                        string percentageDoneAux = percentage.ToString("#.#");
-                        if (!percentageDone.Equals(percentageDoneAux))
-                        {
-                            percentageDone = percentageDoneAux;
-                            Console.WriteLine("Completed " + percentageDone + "%");
-                        }
+                        //counter++;
+                        //double percentage = counter * 100 / total;
+                        //string percentageDoneAux = percentage.ToString("#.#");
+                        //if (!percentageDone.Equals(percentageDoneAux))
+                        //{
+                        //    percentageDone = percentageDoneAux;
+                        //    Console.WriteLine("Completed " + percentageDone + "%");
+                        //}
                     }
                 });
 
             string dictionary = JsonSerializer.Serialize(dictionaryMap);
             byte[] bytes = Encoding.UTF8.GetBytes(dictionary);
             fileStream.Write(bytes, 0, bytes.Length);
-            byteTilesMetadata.SetTilesDictionary(Position, bytes.Length);            
+            byteRangeMetadata.TilesDictionary = new ByteRange(Position, bytes.Length);            
             Position += bytes.Length;
         }
 
@@ -88,21 +85,25 @@ namespace ByteTilesReaderWriter
             }
             byte[] bytes = Encoding.UTF8.GetBytes(medatata);
             fileStream.Write(bytes, 0, bytes.Length);
-            byteTilesMetadata.SetMetadata(Position, bytes.Length);
+            byteRangeMetadata.MetaData = new ByteRange(Position, bytes.Length);
             Position += bytes.Length;
         }
 
-        static void WriteByteTilesMetadata(FileStream fileStream)
+        static ByteRange WriteByteRangeMetadata(FileStream fileStream)
         {
-            string byteTilesMetaData = byteTilesMetadata.ToJson();
-            byte[] byteArray = Encoding.UTF8.GetBytes(byteTilesMetaData);
-            fileStream.Write(byteArray, 0, byteArray.Length);            
+            string json = byteRangeMetadata.ToJson();
+            byte[] byteArray = Encoding.UTF8.GetBytes(json);            
+            fileStream.Write(byteArray, 0, byteArray.Length);
+            ByteRange byteRange = new(Position, byteArray.Length);
+            Position += byteArray.Length;
+            return byteRange;
         }
 
-        static void WriteStartByte()
+        static void WriteStartByte(FileStream fileStream, ByteRange byteRange)
         {
-            string startByte = Position.ToString().PadRight(StartByteLength, ' ');
-            File.AppendAllText(OutputFile, startByte);
+            string startByte = byteRange.ToString().PadRight(StartByteLength, ' ');
+            byte[] byteArray = Encoding.UTF8.GetBytes(startByte);
+            fileStream.Write(byteArray, 0, byteArray.Length);            
         }
     }
 }

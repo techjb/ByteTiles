@@ -17,8 +17,9 @@ namespace ByteTilesReaderWriter
         }
         public string TileKey()
         {
-            long tile_row_aux = (long)Math.Pow(2, Zoom_level) - Tile_row - 1; // from tms to google maps
-            return Zoom_level + "/" + Tile_column + "/" + tile_row_aux;
+            return Zoom_level + "/" + Tile_column + "/" + 
+                ((long)Math.Pow(2, Zoom_level) - Tile_row - 1); // from tms to google maps
+
             //return Zoom_level + "/" + Tile_column + "/" + Tile_row;
         }
     }

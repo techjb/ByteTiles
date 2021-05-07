@@ -5,16 +5,29 @@ namespace SimpleByteTilesServer.Controler
     
     public class ExamplesController : Controller
     {
-        [Route("mapbox")]
-        public IActionResult Mapbox()
+        [Route("countries-vector")]
+        public IActionResult countries_vector()
         {
             return View();
         }
 
-        [Route("countries")]
-        public IActionResult Countries()
+        [Route("countries-raster")]
+        public IActionResult countries_raster()
         {
             return View();
         }
+
+        [Route("satellite-lowres")]
+        public IActionResult satellite_lowres()
+        {
+            return View();
+        }
+
+        [Route("europolis")]
+        public IActionResult europolis()
+        {
+            return View();
+        }
+
     }
 }

@@ -13,4 +13,8 @@
     <ProjectReference Include="..\ByteTilesReaderWriter\ByteTilesReaderWriter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\static\" />
+  </ItemGroup>
+
 </Project>
