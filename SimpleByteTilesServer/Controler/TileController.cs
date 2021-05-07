@@ -1,13 +1,13 @@
 ﻿using ByteTilesReaderWriter;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 
 namespace SimpleByteTilesServer.Controler
 {
-    [Route("tile/{filename}/{z}/{x}/{y}.{format}")]    
+    [Route("tile/{id}/{z}/{x}/{y}.{format}")]
     public class TileController : Controller
     {
         private readonly IMemoryCache MemoryCache;
@@ -17,12 +17,12 @@ namespace SimpleByteTilesServer.Controler
             MemoryCache = memoryCache;
         }
 
-        public ActionResult Get(string filename, int z, int x, int y, string format)
+        public ActionResult Get(string id, int z, int x, int y, string format)
         {
-            string filePath = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\" + filename + ".bytetiles";
-            
-            MemoryCache.TryGetValue(filename, out Dictionary<string, string> dictionary);
-            ByteTilesReader byteTilesReader = new(filePath);            
+            string filePath = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\" + id + ".bytetiles";
+
+            MemoryCache.TryGetValue(id, out Dictionary<string, string> dictionary);
+            ByteTilesReader byteTilesReader = new(filePath);
             byte[] bytes = byteTilesReader.GetTile(z, x, y, dictionary);
             string contentType;
             switch (format)
@@ -33,16 +33,19 @@ namespace SimpleByteTilesServer.Controler
                         contentType = "application/x-protobuf";
                     }
                     break;
+
                 case "png":
                     {
                         contentType = "image/png";
                     }
                     break;
+
                 case "jpg":
                     {
                         contentType = "image/jpeg";
                     }
                     break;
+
                 default:
                     {
                         contentType = "image/png";

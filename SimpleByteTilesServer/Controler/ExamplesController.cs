@@ -2,7 +2,6 @@
 
 namespace SimpleByteTilesServer.Controler
 {
-    
     public class ExamplesController : Controller
     {
         [Route("countries-vector")]
@@ -29,5 +28,10 @@ namespace SimpleByteTilesServer.Controler
             return View();
         }
 
+        [Route("buildings")]
+        public IActionResult buildings()
+        {
+            return View();
+        }
     }
 }

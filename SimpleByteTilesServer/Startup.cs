@@ -1,15 +1,15 @@
+using ByteTilesReaderWriter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
-using ByteTilesReaderWriter;
-using Microsoft.AspNetCore.ResponseCompression;
-using System.Linq;
-using Microsoft.Extensions.FileProviders;
 using System.IO;
-using Microsoft.AspNetCore.StaticFiles;
+using System.Linq;
 
 namespace SimpleByteTilesServer
 {
@@ -34,7 +34,6 @@ namespace SimpleByteTilesServer
             });
             services.AddMemoryCache();
         }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMemoryCache memoryCache)
@@ -70,18 +69,24 @@ namespace SimpleByteTilesServer
 
         private static void CacheTilesDictionaries(IMemoryCache memoryCache)
         {
-            CacheTilesDictionary(memoryCache, "countries-vector");
-            CacheTilesDictionary(memoryCache, "countries-raster");
-            CacheTilesDictionary(memoryCache, "europolis");
-            CacheTilesDictionary(memoryCache, "satellite-lowres");
+            CacheTilesDictionaryId(memoryCache, "countries-vector");
+            CacheTilesDictionaryId(memoryCache, "countries-raster");
+            CacheTilesDictionaryId(memoryCache, "europolis");
+            CacheTilesDictionaryId(memoryCache, "satellite-lowres");
+            CacheTilesDictionaryId(memoryCache, "buildings");
         }
 
-        private static void CacheTilesDictionary(IMemoryCache memoryCache, string fileName)
+        private static void CacheTilesDictionaryId(IMemoryCache memoryCache, string id)
         {
-            string filePath = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\" + fileName + ".bytetiles";
-            ByteTilesReader byteTilesReader = new(filePath);
+            string file = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\" + id + ".bytetiles";
+            CacheTilesDictionaryFile(memoryCache, id, file);
+        }
+
+        private static void CacheTilesDictionaryFile(IMemoryCache memoryCache, string id, string file)
+        {
+            ByteTilesReader byteTilesReader = new(file);
             Dictionary<string, string> dictionary = byteTilesReader.GetTilesDictionary();
-            memoryCache.Set(fileName, dictionary);
+            memoryCache.Set(id, dictionary);
         }
     }
 }
