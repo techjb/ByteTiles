@@ -79,11 +79,6 @@ namespace SimpleByteTilesServer
         private static void CacheTilesDictionaryId(IMemoryCache memoryCache, string id)
         {
             string file = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\" + id + ".bytetiles";
-            CacheTilesDictionaryFile(memoryCache, id, file);
-        }
-
-        private static void CacheTilesDictionaryFile(IMemoryCache memoryCache, string id, string file)
-        {
             ByteTilesReader byteTilesReader = new(file);
             Dictionary<string, string> dictionary = byteTilesReader.GetTilesDictionary();
             memoryCache.Set(id, dictionary);

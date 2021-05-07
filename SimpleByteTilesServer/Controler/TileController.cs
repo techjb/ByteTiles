@@ -10,6 +10,7 @@ namespace SimpleByteTilesServer.Controler
     [Route("tile/{id}/{z}/{x}/{y}.{format}")]
     public class TileController : Controller
     {
+        private string filePath = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\";
         private readonly IMemoryCache MemoryCache;
 
         public TileController(IMemoryCache memoryCache)
@@ -19,12 +20,11 @@ namespace SimpleByteTilesServer.Controler
 
         public ActionResult Get(string id, int z, int x, int y, string format)
         {
-            string filePath = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\" + id + ".bytetiles";
-
+            string file = filePath + id + ".bytetiles";
             MemoryCache.TryGetValue(id, out Dictionary<string, string> dictionary);
-            ByteTilesReader byteTilesReader = new(filePath);
+            ByteTilesReader byteTilesReader = new(file);
             byte[] bytes = byteTilesReader.GetTile(z, x, y, dictionary);
-            string contentType;
+            string contentType = string.Empty;
             switch (format)
             {
                 case "pbf":
@@ -44,13 +44,7 @@ namespace SimpleByteTilesServer.Controler
                     {
                         contentType = "image/jpeg";
                     }
-                    break;
-
-                default:
-                    {
-                        contentType = "image/png";
-                    }
-                    break;
+                    break;               
             }
             return File(bytes, contentType);
         }
