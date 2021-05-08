@@ -15,12 +15,9 @@ namespace ByteTilesReaderWriter
             Tile_column = (long)sQLiteDataReader["tile_column"];
             Tile_row = (long)sQLiteDataReader["tile_row"];            
         }
-        public string TileKey()
+        public TileKey TileKey()
         {
-            return Zoom_level + "/" + Tile_column + "/" + 
-                ((long)Math.Pow(2, Zoom_level) - Tile_row - 1); // from tms to google maps
-
-            //return Zoom_level + "/" + Tile_column + "/" + Tile_row;
+            return new TileKey(Tile_column, (long)Math.Pow(2, Zoom_level) - Tile_row - 1, Zoom_level);            
         }
     }
 }

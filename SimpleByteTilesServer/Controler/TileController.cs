@@ -10,7 +10,7 @@ namespace SimpleByteTilesServer.Controler
     [Route("tile/{id}/{z}/{x}/{y}.{format}")]
     public class TileController : Controller
     {
-        private string filePath = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\";
+        private readonly string filePath = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\";
         private readonly IMemoryCache MemoryCache;
 
         public TileController(IMemoryCache memoryCache)
@@ -21,9 +21,10 @@ namespace SimpleByteTilesServer.Controler
         public ActionResult Get(string id, int z, int x, int y, string format)
         {
             string file = filePath + id + ".bytetiles";
-            MemoryCache.TryGetValue(id, out Dictionary<string, string> dictionary);
+            
+            Dictionary<string, string> dictionary = new ByteTilesCache(MemoryCache).GetTilesDictionary(id);
             ByteTilesReader byteTilesReader = new(file);
-            byte[] bytes = byteTilesReader.GetTile(z, x, y, dictionary);
+            byte[] bytes = byteTilesReader.GetTile(x, y, z, dictionary);
             string contentType = string.Empty;
             switch (format)
             {
@@ -61,10 +62,6 @@ namespace SimpleByteTilesServer.Controler
                 bytes.Add((byte)bytesRead);
                 bytesRead = gZipStream.ReadByte();
             }
-            gZipStream.Flush();
-            memoryStream.Flush();
-            gZipStream.Close();
-            memoryStream.Close();
             return bytes.ToArray();
         }
     }

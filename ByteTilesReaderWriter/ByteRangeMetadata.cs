@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.Json;
 
 namespace ByteTilesReaderWriter
 {
     /// <summary>
-    /// List of byte range (start byte position and length) where starting to read each table.
+    /// List of byte range (start byte position and length) for each table.
     /// </summary>
     public class ByteRangeMetadata
     {
         public string Version = "1.0";
 
-        public ByteRange MetaData { get; set; } // Byte range for metadata json
+        public ByteRange MetaData { get; set; } // metadata table in json
 
-        public ByteRange TilesDictionary { get; set; } // Byte range for tiles table dictionary
+        public ByteRange TilesDictionary { get; set; } // Table tiles dictionary
 
-        public ByteRange GridsDictionary { get; set; } // Byte range for grids table dictionary
+        public ByteRange GridsDictionary { get; set; } // Table grids dictionary
 
-        public ByteRange GridDataDictionary { get; set; } // Byte range for grid_data dictinary
+        public ByteRange GridDataDictionary { get; set; } // Table grid_data dictinary
 
         public ByteRangeMetadata()
         {
@@ -43,10 +42,13 @@ namespace ByteTilesReaderWriter
 
         public string ToJson()
         {
-            List<string> list = new();
-            list.Add("\"version\": \"" + Version + "\"");
-            list.Add("\"metadata\": \"" + MetaData + "\"");
-            list.Add("\"tiles_dictionary\": \"" + TilesDictionary + "\"");
+            List<string> list = new()
+            {
+                "\"version\": \"" + Version + "\"",
+                "\"metadata\": \"" + MetaData + "\"",
+                "\"tiles_dictionary\": \"" + TilesDictionary + "\""
+            };
+            
             if (GridsDictionary != null)
             {
                 list.Add("\"grids_dictionary\": \"" + GridsDictionary + "\"");

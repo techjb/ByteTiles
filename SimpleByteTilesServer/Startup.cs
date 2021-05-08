@@ -7,7 +7,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -20,7 +19,6 @@ namespace SimpleByteTilesServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddResponseCompression();
             services.AddResponseCompression(options =>
             {
                 options.EnableForHttps = true;
@@ -45,9 +43,7 @@ namespace SimpleByteTilesServer
 
             app.UseRouting();
 
-            app.UseDefaultFiles();
-
-            app.UseStaticFiles();
+            app.UseDefaultFiles();            
 
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -69,19 +65,17 @@ namespace SimpleByteTilesServer
 
         private static void CacheTilesDictionaries(IMemoryCache memoryCache)
         {
-            CacheTilesDictionaryId(memoryCache, "countries-vector");
-            CacheTilesDictionaryId(memoryCache, "countries-raster");
-            CacheTilesDictionaryId(memoryCache, "europolis");
-            CacheTilesDictionaryId(memoryCache, "satellite-lowres");
-            CacheTilesDictionaryId(memoryCache, "buildings");
+            ByteTilesCache byteTilesCache = new(memoryCache);
+            byteTilesCache.SetTilesDictionary(GetFile("countries-vector"));
+            byteTilesCache.SetTilesDictionary(GetFile("countries-raster"));
+            byteTilesCache.SetTilesDictionary(GetFile("europolis"));
+            byteTilesCache.SetTilesDictionary(GetFile("satellite-lowres"));
+            byteTilesCache.SetTilesDictionary(GetFile("buildings"));
         }
 
-        private static void CacheTilesDictionaryId(IMemoryCache memoryCache, string id)
+        private static string GetFile(string id)
         {
-            string file = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\" + id + ".bytetiles";
-            ByteTilesReader byteTilesReader = new(file);
-            Dictionary<string, string> dictionary = byteTilesReader.GetTilesDictionary();
-            memoryCache.Set(id, dictionary);
+            return @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\" + id + ".bytetiles";            
         }
     }
 }

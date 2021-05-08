@@ -8,7 +8,7 @@ namespace ByteTilesReaderWriter_Test
     {
 
         private static string FilesPath = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\";
-        private static string ExtractOutputDirectory = @"C:\Users\Chus\Downloads\";
+        private static string ExtractOutputPath = @"C:\Users\Chus\Downloads\";
 
         static void Main(string[] args)
         {
@@ -16,7 +16,7 @@ namespace ByteTilesReaderWriter_Test
             //WriteByteTilesFile("satellite-lowres");
             //WriteByteTilesFile("countries-vector");
             //WriteByteTilesFile("countries-raster");
-            //WriteByteTilesFile("buildings");            
+            //WriteByteTilesFile("buildings");
 
             //ReadByteTilesFile("europolis");
             //ReadByteTilesFile("satellite-lowres");
@@ -25,9 +25,6 @@ namespace ByteTilesReaderWriter_Test
 
             //ExtractByteTilesFiles("countries-vector");
             //ExtractByteTilesFiles("countries-raster");
-
-
-
         }
 
         static void WriteByteTilesFile(string file)
@@ -63,8 +60,8 @@ namespace ByteTilesReaderWriter_Test
         static void ExtractByteTilesFiles(string file)
         {
             string input = FilesPath + file + ".bytetiles";
-            ByteTilesReader byteTilesReader = new (input);            
-            byteTilesReader.ExtractTiles(ExtractOutputDirectory);
+            ByteTilesExtractor byteTilesExtractor = new(input);
+            byteTilesExtractor.ExtractTiles(ExtractOutputPath);
         }
     }
 }

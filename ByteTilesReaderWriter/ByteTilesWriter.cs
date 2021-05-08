@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +12,9 @@ namespace ByteTilesReaderWriter
         const int StartByteLength = 40;
         static string OutputFile;
         static ByteRangeMetadata byteRangeMetadata;
-        
+        static FileStream FileStream;
+
+
         public static void ParseMbtiles(string inputFile, string outputFile)
         {
             MBTilesReader mBTilesReader = new(inputFile);
@@ -22,21 +23,17 @@ namespace ByteTilesReaderWriter
             File.Delete(OutputFile);
             byteRangeMetadata = new ByteRangeMetadata();
 
-            using var fileStream = new FileStream(OutputFile, FileMode.Append, FileAccess.Write);
-            WriteTableTiles(mBTilesReader, fileStream);
-            WriteTableMetadata(mBTilesReader, fileStream);
-            ByteRange byteRange = WriteByteRangeMetadata(fileStream);
-            WriteStartByte(fileStream, byteRange);
+            FileStream = new FileStream(OutputFile, FileMode.Append, FileAccess.Write);
+            WriteTableTiles(mBTilesReader);
+            WriteTableMetadata(mBTilesReader);
+            ByteRange byteRange = WriteByteRangeMetadata();
+            WriteStartByte(byteRange);
+            FileStream.Close();
         }
        
-        static void WriteTableTiles(MBTilesReader mBTilesReader, FileStream fileStream)
+        static void WriteTableTiles(MBTilesReader mBTilesReader)
         {
-            var tiles = mBTilesReader.GetTiles();
-            if (tiles.Count.Equals(0))
-            {
-                return;
-            }
-            //int counter = 0;
+            var tiles = mBTilesReader.GetTiles();        
             Position = 0;
             string percentageDone = string.Empty;                    
 
@@ -46,18 +43,12 @@ namespace ByteTilesReaderWriter
             Parallel.ForEach(tiles,
                 //new ParallelOptions() { MaxDegreeOfParallelism = 1 }, 
                 tilesRow =>
-                {
-                    byte[] byteArray = tilesRow.Tile_data;
+                {                    
                     lock (sync)
                     {
-                        fileStream.Write(byteArray, 0, byteArray.Length);
-
-                        int length = byteArray.Length;
-                        string positionAndLength = Position + "/" + length;
-                        string tileKey = tilesRow.TileKey();
-                        dictionaryMap.Add(tileKey, positionAndLength);
-                        Position += length;
-
+                        ByteRange byteRange = Write(tilesRow.Tile_data);                      
+                        string tileKey = tilesRow.TileKey().ToString();
+                        dictionaryMap.Add(tileKey, byteRange.ToString());
                         //counter++;
                         //double percentage = counter * 100 / total;
                         //string percentageDoneAux = percentage.ToString("#.#");
@@ -69,41 +60,40 @@ namespace ByteTilesReaderWriter
                     }
                 });
 
-            string dictionary = JsonSerializer.Serialize(dictionaryMap);
-            byte[] bytes = Encoding.UTF8.GetBytes(dictionary);
-            fileStream.Write(bytes, 0, bytes.Length);
-            byteRangeMetadata.TilesDictionary = new ByteRange(Position, bytes.Length);            
-            Position += bytes.Length;
+            string dictionary = JsonSerializer.Serialize(dictionaryMap);            
+            byteRangeMetadata.TilesDictionary = Write(dictionary);
         }
 
-        static void WriteTableMetadata(MBTilesReader mBTilesReader, FileStream fileStream)
+        static void WriteTableMetadata(MBTilesReader mBTilesReader)
         {
-            string medatata = mBTilesReader.GetMetadata();
-            if (medatata.Equals(string.Empty))
-            {
-                return;
-            }
-            byte[] bytes = Encoding.UTF8.GetBytes(medatata);
-            fileStream.Write(bytes, 0, bytes.Length);
-            byteRangeMetadata.MetaData = new ByteRange(Position, bytes.Length);
-            Position += bytes.Length;
+            string metadata = mBTilesReader.GetMetadata();
+            byteRangeMetadata.MetaData = Write(metadata);            
         }
 
-        static ByteRange WriteByteRangeMetadata(FileStream fileStream)
+        static ByteRange WriteByteRangeMetadata()
         {
             string json = byteRangeMetadata.ToJson();
-            byte[] byteArray = Encoding.UTF8.GetBytes(json);            
-            fileStream.Write(byteArray, 0, byteArray.Length);
-            ByteRange byteRange = new(Position, byteArray.Length);
-            Position += byteArray.Length;
-            return byteRange;
+            return Write(json);            
         }
 
-        static void WriteStartByte(FileStream fileStream, ByteRange byteRange)
+        static void WriteStartByte(ByteRange byteRange)
         {
             string startByte = byteRange.ToString().PadRight(StartByteLength, ' ');
             byte[] byteArray = Encoding.UTF8.GetBytes(startByte);
-            fileStream.Write(byteArray, 0, byteArray.Length);            
+            FileStream.Write(byteArray, 0, byteArray.Length);            
+        }
+
+        static ByteRange Write(string text)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(text);
+            return Write(bytes);
+        }
+        static ByteRange Write(byte[] bytes)
+        {
+            FileStream.Write(bytes, 0, bytes.Length);
+            ByteRange byteRange = new(Position, bytes.Length);
+            Position += bytes.Length;
+            return byteRange;
         }
     }
 }
