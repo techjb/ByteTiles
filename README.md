@@ -2,45 +2,20 @@
 
 ![ByteTiles][product-screenshot]
 
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#bennefits">Bennefits</a></li>  
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>    
-    <li><a href="#examples">Examples</a></li>
-    <li><a href="#installation">Installation</a></li>
-    <li><a href="#content">Content</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>   
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>    
-  </ol>
-</details>
-
-
-<!-- ABOUT THE PROJECT -->
-## About The Project
-
-The idea is to parse **.mbtiles** file in a format readable by [Amazon S3](https://aws.amazon.com/s3/). 
+ByteTiles is a project to parse **.mbtiles** file in a format readable by [Amazon S3](https://aws.amazon.com/s3/). 
 
 An **.mbtiles** file contains a SQLite database and needs to be loaded in memory before requesting data. 
 Instead a **.bytetiles** file constains a list of tiles and a dictionary (tile key and byte range) that indicates the position in the file for every tile.
 
 
-### Bennefits
+## Bennefits
 
 * Reduce cost of serving map tiles.
 * Reduce storage.
 * Easy to update. Instead of extracting the files contained in **.mbtiles** and the upload them all to S3, a **.bytetile** file contains all in a single file.
 
 
-### Built With
+## Built With
 
 * [MBTiles](https://wiki.openstreetmap.org/wiki/MBTiles)
 * C#
