@@ -2,7 +2,7 @@
 
 ![ByteTiles][product-screenshot]
 
-ByteTiles is a project to parse **.mbtiles** file in a format readable by [Amazon S3](https://aws.amazon.com/s3/). 
+Parse **.mbtiles** file in a format readable by [Amazon S3](https://aws.amazon.com/s3/). 
 
 An **.mbtiles** file contains a SQLite database and needs to be loaded in memory before requesting data. 
 Instead a **.bytetiles** file constains a list of tiles and a dictionary (tile key and byte range) that indicates the position in the file for every tile.
