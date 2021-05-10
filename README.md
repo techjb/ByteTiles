@@ -2,10 +2,10 @@
 
 ![ByteTiles][product-screenshot]
 
-Parse **.mbtiles** file in a format readable by [Amazon S3](https://aws.amazon.com/s3/). 
+Parse [MBTiles](https://docs.mapbox.com/help/glossary/mbtiles/) file in a format readable by [Amazon S3](https://aws.amazon.com/s3/). 
 
-An **.mbtiles** file contains a SQLite database and needs to be loaded in memory before requesting data. 
-Instead a **.bytetiles** file constains a list of tiles and a dictionary (tile key and byte range) that indicates the position in the file for every tile that can be requested directly.
+A **.mbtiles** file contains a SQLite database and needs to be loaded in memory before requesting data. 
+Instead a **.bytetiles** file constains a list of tiles and a dictionary (tile key and byte range) that indicates the position in the file to every tile that can be requested directly.
 
 
 ## Bennefits
@@ -46,8 +46,8 @@ The package contains the following proyects:
 * *ByteTilesReaderWriter*: Library to parse a **.mbtiles** file to **.bytetiles** file and read tiles data.
 * *ByteTilesReaderWriter_Test*: Test for the **ByteTilesReaderWriter** library.
 * *SimpleByteTilesServer*: Simple ByteTiles server with examples.
-* *ByteTilesLogo*: Logo files
-* *ByteTilesSpec*: ByteTiles specification
+* *ByteTilesLogo*: ByteTiles Logo files.
+* *ByteTilesSpec*: ByteTiles specifications.
 
 <!-- ROADMAP -->
 ## Roadmap
