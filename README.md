@@ -23,14 +23,14 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-The idea behing ByteTiles is to parse `.mbtiles` file in some format readable in Amazon AWS S3. 
+The idea behing ByteTiles is to parse **.mbtiles** file in some format readable in Amazon S3. 
 
-An `.mbtiles` file contains a SQLite database and needs to load all file in memory before requesting data. 
-Instead a `.bytetiles` file constains a list of tiles and a dictionary (tile key and byte range) that indicates the tile position in the file for all tiles.
+An **.mbtiles** file contains a SQLite database and needs to load all file in memory before requesting data. 
+Instead a **.bytetiles** file constains a list of tiles and a dictionary (tile key and byte range) that indicates the tile position in the file for all tiles.
 For example, the tile key `14/8015/6171` is located in the byte range `557522/446`.
 
 The main advantage is reducing cost of serving map tiles.
-Instead of extracting the files contained in `.mbtiles` and the upload them all to AWS S3, a `.bytetile` file contains everything in a single file and then, faster to update.
+Instead of extracting the files contained in **.mbtiles** and the upload them all to S3, a **.bytetile** file contains everything in a single file and then, faster to update.
 
 
 ### Built With
@@ -61,9 +61,9 @@ Examples are contained in the SimpleByteTilesServer and ByteTilesReaderWriter_Te
 ## Content
 The package contains the following proyects:
 
-* *ByteTilesReaderWriter*. Library to parse a `.mbtiles` file to `.bytetiles` file and read tiles data. Also extract tiles to a directory.
-* *ByteTilesReaderWriter_Test*. Test for the `ByteTilesReaderWriter` library.
-* *SimpleByteTilesServer*. Simple ByteTiles server with examples.
+* *ByteTilesReaderWriter*: Library to parse a **.mbtiles** file to **.bytetiles** file and read tiles data. Also extract tiles to a directory.
+* *ByteTilesReaderWriter_Test*: Test for the **ByteTilesReaderWriter** library.
+* *SimpleByteTilesServer*: Simple ByteTiles server with examples.
 
 <!-- ROADMAP -->
 ## Roadmap
