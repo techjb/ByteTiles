@@ -23,7 +23,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![ByteTiles][product-screenshot]]
+![ByteTiles][product-screenshot]
 
 The idea behing ByteTiles is to parse **.mbtiles** file in some format readable in Amazon S3. 
 
@@ -99,4 +99,4 @@ Project Link: [https://github.com/techjb/ByteTiles](https://github.com/techjb/By
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[product-screenshot]: ByteTilesLogo/logo_small.png
+[product-screenshot]: ByteTilesLogo/logo_large.png
