@@ -99,4 +99,4 @@ Project Link: [https://github.com/techjb/ByteTiles](https://github.com/techjb/By
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[product-screenshot]: ByteTilesLogo/logo_large.png
+[product-screenshot]: ByteTilesLogo/logo_small.png
