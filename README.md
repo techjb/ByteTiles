@@ -23,6 +23,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+[![ByteTiles][product-screenshot]]
+
 The idea behing ByteTiles is to parse **.mbtiles** file in some format readable in Amazon S3. 
 
 An **.mbtiles** file contains a SQLite database and needs to load all file in memory before requesting data. 
@@ -94,3 +96,7 @@ See [license](https://github.com/techjb/ByteTiles/blob/master/LICENSE.txt) for m
 Jesús Barrio - [@techjb](https://twitter.com/techjb)
 
 Project Link: [https://github.com/techjb/ByteTiles](https://github.com/techjb/ByteTiles)
+
+<!-- MARKDOWN LINKS & IMAGES -->
+
+[product-screenshot]: ByteTilesLogo/logo_small.png
