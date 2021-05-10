@@ -1,11 +1,8 @@
-using ByteTilesReaderWriter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Linq;
@@ -54,21 +51,24 @@ namespace SimpleByteTilesServer
                 endpoints.MapControllers();
             });
 
-            CacheTilesDictionaries(memoryCache);
+            CacheTilesDictionaries(env, memoryCache);
         }
 
-        private static void CacheTilesDictionaries(IMemoryCache memoryCache)
+        private static void CacheTilesDictionaries(IWebHostEnvironment env, IMemoryCache memoryCache)
         {
+            var contentRoot = Directory.GetParent(env.ContentRootPath) 
+                +  @"\ByteTilesReaderWriter_Test\files\";
+
+            string file1 = contentRoot + "countries-vector.bytetiles";
+            string file2 = contentRoot + "countries-raster.bytetiles";
+            string file3 = contentRoot + "europolis.bytetiles";
+            string file4 = contentRoot + "satellite-lowres.bytetiles";
+
             ByteTilesCache byteTilesCache = new(memoryCache);
-            byteTilesCache.SetTilesDictionary(GetFile("countries-vector"));
-            byteTilesCache.SetTilesDictionary(GetFile("countries-raster"));
-            byteTilesCache.SetTilesDictionary(GetFile("europolis"));
-            byteTilesCache.SetTilesDictionary(GetFile("satellite-lowres"));            
-        }
-
-        private static string GetFile(string id)
-        {
-            return @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\" + id + ".bytetiles";            
+            byteTilesCache.SetTilesDictionary(file1);
+            byteTilesCache.SetTilesDictionary(file2);
+            byteTilesCache.SetTilesDictionary(file3);
+            byteTilesCache.SetTilesDictionary(file4);            
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace ByteTilesReaderWriter
 {
     /// <summary>
-    /// Extract files contained in .mbtiles file in a output folder
+    /// Extract files contained in .bytetiles file in a output folder
     /// </summary>
     public class ByteTilesExtractor
     {

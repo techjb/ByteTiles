@@ -50,7 +50,7 @@ namespace ByteTilesReaderWriter_Test
                 Console.WriteLine(tile.Key + " - " + tile.Value);
             }
 
-            byte[] byteArray = byteTilesReader.GetTile(16,32060,40846);
+            byte[] byteArray = byteTilesReader.GetTile(8015, 6171, 14);
             string text = System.Text.Encoding.Default.GetString(byteArray);
             Console.WriteLine(text);
         }
