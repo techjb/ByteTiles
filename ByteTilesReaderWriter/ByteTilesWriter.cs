@@ -6,6 +6,10 @@ using System.Text.Json;
 
 namespace ByteTilesReaderWriter
 {
+    
+    /// <summary>
+    /// Creates a .bytetiles file from a .mbtiles file
+    /// </summary>
     public class ByteTilesWriter
     {
         static long Position;
@@ -14,12 +18,16 @@ namespace ByteTilesReaderWriter
         static ByteRangeMetadata byteRangeMetadata;
         static FileStream FileStream;
 
-
-        public static void ParseMbtiles(string inputFile, string outputFile)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input">.mbtiles file</param>
+        /// <param name="output">.bytetiles file</param>
+        public static void ParseMbtiles(string input, string output)
         {
-            MBTilesReader mBTilesReader = new(inputFile);
+            MBTilesReader mBTilesReader = new(input);
             Position = 0;
-            OutputFile = outputFile;
+            OutputFile = output;
             File.Delete(OutputFile);
             byteRangeMetadata = new ByteRangeMetadata();
 

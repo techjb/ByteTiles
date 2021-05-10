@@ -22,9 +22,9 @@ namespace SimpleByteTilesServer.Controler
         {
             string file = filePath + id + ".bytetiles";
             
-            Dictionary<string, string> dictionary = new ByteTilesCache(MemoryCache).GetTilesDictionary(id);
+            Dictionary<string, string> tiles = new ByteTilesCache(MemoryCache).GetTilesDictionary(id);
             ByteTilesReader byteTilesReader = new(file);
-            byte[] bytes = byteTilesReader.GetTile(x, y, z, dictionary);
+            byte[] bytes = byteTilesReader.GetTile(x, y, z, tiles);
             string contentType = string.Empty;
             switch (format)
             {
@@ -50,9 +50,9 @@ namespace SimpleByteTilesServer.Controler
             return File(bytes, contentType);
         }
 
-        public static byte[] Decompress(byte[] byteArray)
+        public static byte[] Decompress(byte[] @byte)
         {
-            MemoryStream memoryStream = new(byteArray);
+            MemoryStream memoryStream = new(@byte);
             GZipStream gZipStream = new(memoryStream, CompressionMode.Decompress, true);
             List<byte> bytes = new();
 

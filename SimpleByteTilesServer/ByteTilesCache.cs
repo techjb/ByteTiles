@@ -10,7 +10,7 @@ namespace SimpleByteTilesServer
 {
     public class ByteTilesCache
     {
-        IMemoryCache MemoryCache;
+        readonly IMemoryCache MemoryCache;
 
         public ByteTilesCache(IMemoryCache memoryCache) 
         {
@@ -19,9 +19,9 @@ namespace SimpleByteTilesServer
         public void SetTilesDictionary(string file)
         {            
             ByteTilesReader byteTilesReader = new(file);
-            Dictionary<string, string> dictionary = byteTilesReader.GetTilesDictionary();
+            Dictionary<string, string> tilesDictionary = byteTilesReader.GetTilesDictionary();
             string id = Path.GetFileNameWithoutExtension(file);
-            MemoryCache.Set(id, dictionary);
+            MemoryCache.Set(id, tilesDictionary);
         }
 
         public Dictionary<string, string> GetTilesDictionary(string id)

@@ -6,6 +6,9 @@ using System.Text.Json;
 
 namespace ByteTilesReaderWriter
 {
+    /// <summary>
+    /// Reads metadata and tiles from .bytetiles file.
+    /// </summary>
     public class ByteTilesReader
     {
         private readonly string InputFile;

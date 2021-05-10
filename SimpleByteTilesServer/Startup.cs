@@ -43,15 +43,9 @@ namespace SimpleByteTilesServer
 
             app.UseRouting();
 
-            app.UseDefaultFiles();            
+            app.UseDefaultFiles();
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "static")),
-                RequestPath = "/static",
-                ContentTypeProvider = new FileExtensionContentTypeProvider()
-            });
+            app.UseStaticFiles();
 
             app.UseResponseCompression();
 
@@ -69,8 +63,7 @@ namespace SimpleByteTilesServer
             byteTilesCache.SetTilesDictionary(GetFile("countries-vector"));
             byteTilesCache.SetTilesDictionary(GetFile("countries-raster"));
             byteTilesCache.SetTilesDictionary(GetFile("europolis"));
-            byteTilesCache.SetTilesDictionary(GetFile("satellite-lowres"));
-            byteTilesCache.SetTilesDictionary(GetFile("buildings"));
+            byteTilesCache.SetTilesDictionary(GetFile("satellite-lowres"));            
         }
 
         private static string GetFile(string id)

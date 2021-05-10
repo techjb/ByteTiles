@@ -25,8 +25,8 @@ namespace ByteTilesReaderWriter
             OutputPath = outputPath + Path.GetFileNameWithoutExtension(InputFile) + "\\";
             DeleteDirectory();
 
-            var keyValuePairs = ByteTilesReader.GetMetadata();
-            string format = keyValuePairs["format"];
+            var metadata = ByteTilesReader.GetMetadata();
+            string format = metadata["format"];
 
             var tilesDictionary = ByteTilesReader.GetTilesDictionary();
             Parallel.ForEach(tilesDictionary, keyValuePair =>
@@ -69,7 +69,7 @@ namespace ByteTilesReaderWriter
             directoryInfo.Delete(true);
         }
 
-        public static byte[] Decompress(byte[] byteArray)
+        private static byte[] Decompress(byte[] byteArray)
         {
             MemoryStream memoryStream = new(byteArray);
             GZipStream gZipStream = new(memoryStream, CompressionMode.Decompress, true);

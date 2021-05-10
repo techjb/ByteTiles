@@ -23,7 +23,9 @@
 <body>
     <div id="map"></div>
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoidGVjaGpiIiwiYSI6ImNqZnAxdGprYTB3a2EzM3JxN3ozazE1a3kifQ.WTzyyZbmKbyehCBm9HNhbg';
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZXhhbXBsZXMiLCJhIjoiY2p0MG01MXRqMW45cjQzb2R6b2ptc3J4MSJ9.zA2W0IkI0c6KaAhJfk9bWg';
+        var fullLocation = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -31,16 +33,14 @@
             zoom: 13
         });
 
-        var fullLocation = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
-
         map.on('load', function () {
             map.addSource('europolis', {
                 'type': 'vector',
                 'tiles': [
                     fullLocation + "/tile/europolis/{z}/{x}/{y}.pbf"
                 ],
-                'minzoom': 6,
-                'maxzoom': 20
+                'minzoom': 10,
+                'maxzoom': 17
             });
             map.addLayer(
                 {

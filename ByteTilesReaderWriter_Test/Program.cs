@@ -39,17 +39,16 @@ namespace ByteTilesReaderWriter_Test
             string input = FilesPath + file + ".bytetiles";
             var byteTilesReader = new ByteTilesReader(input);
 
-            var keyValuePairs = byteTilesReader.GetMetadata();
-            foreach (KeyValuePair<string, string> entry in keyValuePairs)
+            var metadata = byteTilesReader.GetMetadata();
+            foreach (KeyValuePair<string, string> entry in metadata)
             {
                 Console.WriteLine(entry.Key + " - " + entry.Value);
             }
 
-
-            var dictionary = byteTilesReader.GetTilesDictionary();
-            foreach (KeyValuePair<string, string> entry in dictionary)
+            var tiles = byteTilesReader.GetTilesDictionary();
+            foreach (KeyValuePair<string, string> tile in tiles)
             {
-                Console.WriteLine(entry.Key + " - " + entry.Value);
+                Console.WriteLine(tile.Key + " - " + tile.Value);
             }
 
             byte[] byteArray = byteTilesReader.GetTile(16,32060,40846);
