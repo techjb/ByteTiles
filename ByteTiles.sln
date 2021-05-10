@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ByteTilesSpect", "ByteTilesSpect", "{D8163B6A-A686-4C4C-A586-9D26039F660A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ByteTilesSpec", "ByteTilesSpec", "{D8163B6A-A686-4C4C-A586-9D26039F660A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ByteTilesLogo", "ByteTilesLogo", "{0B8EBCFA-91EF-4DF3-A7F6-860B937C6A45}"
 	ProjectSection(SolutionItems) = preProject
@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ByteTilesLogo", "ByteTilesL
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.0", "1.0", "{CE48E091-F704-4CBA-888C-A4B4CA550D17}"
 	ProjectSection(SolutionItems) = preProject
-		ByteTilesSpect\1.0\spec.md = ByteTilesSpect\1.0\spec.md
+		ByteTilesSpec\1.0\spec.md = ByteTilesSpec\1.0\spec.md
 	EndProjectSection
 EndProject
 Global

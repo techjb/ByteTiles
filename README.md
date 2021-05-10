@@ -1,3 +1,6 @@
+# ByteTiles
+
+![ByteTiles][product-screenshot]
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -24,19 +27,17 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![ByteTiles][product-screenshot]
+The idea is to parse **.mbtiles** file in a format readable by [Amazon S3](https://aws.amazon.com/s3/). 
 
-The idea is to parse **.mbtiles** file in a format readable by Amazon S3. 
-
-An **.mbtiles** file contains a SQLite database and needs to load all file in memory before requesting data. 
-Instead a **.bytetiles** file constains a list of tiles and a dictionary (tile key and byte range) that indicates the tile position in the file.
+An **.mbtiles** file contains a SQLite database and needs to be loaded in memory before requesting data. 
+Instead a **.bytetiles** file constains a list of tiles and a dictionary (tile key and byte range) that indicates the position in the file for every tile.
 
 
 ### Bennefits
 
 * Reduce cost of serving map tiles.
-* Reduce storage size.
-* Easy to update. Instead of extracting the files contained in **.mbtiles** and the upload them all to S3, a **.bytetile** file contains everything in a single file.
+* Reduce storage.
+* Easy to update. Instead of extracting the files contained in **.mbtiles** and the upload them all to S3, a **.bytetile** file contains all in a single file.
 
 
 ### Built With
@@ -49,7 +50,7 @@ Instead a **.bytetiles** file constains a list of tiles and a dictionary (tile k
 <!-- DEMO EXAMPLES -->
 ## Examples
 
-Examples are contained in the *SimpleByteTilesServer* and *ByteTilesReaderWriter_Test* projects.
+Examples are contained in the **SimpleByteTilesServer** and **ByteTilesReaderWriter_Test** projects.
 
 <!-- INSTALATION -->
 ## Installation
@@ -70,6 +71,8 @@ The package contains the following proyects:
 * *ByteTilesReaderWriter*: Library to parse a **.mbtiles** file to **.bytetiles** file and read tiles data.
 * *ByteTilesReaderWriter_Test*: Test for the **ByteTilesReaderWriter** library.
 * *SimpleByteTilesServer*: Simple ByteTiles server with examples.
+* *ByteTilesLogo*: Logo files
+* *ByteTilesSpec*: ByteTiles specification
 
 <!-- ROADMAP -->
 ## Roadmap
