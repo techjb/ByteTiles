@@ -43,7 +43,7 @@ Instead of extracting the files contained in **.mbtiles** and the upload them al
 <!-- DEMO EXAMPLES -->
 ## Examples
 
-Examples are contained in the SimpleByteTilesServer and ByteTilesReaderWriter_Test projects.
+Examples are contained in the *SimpleByteTilesServer* and *ByteTilesReaderWriter_Test* projects.
 
 <!-- INSTALATION -->
 ## Installation
@@ -61,7 +61,7 @@ Examples are contained in the SimpleByteTilesServer and ByteTilesReaderWriter_Te
 ## Content
 The package contains the following proyects:
 
-* *ByteTilesReaderWriter*: Library to parse a **.mbtiles** file to **.bytetiles** file and read tiles data. Also extract tiles to a directory.
+* *ByteTilesReaderWriter*: Library to parse a **.mbtiles** file to **.bytetiles** file and read tiles data.
 * *ByteTilesReaderWriter_Test*: Test for the **ByteTilesReaderWriter** library.
 * *SimpleByteTilesServer*: Simple ByteTiles server with examples.
 
