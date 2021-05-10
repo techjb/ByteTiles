@@ -12,8 +12,7 @@ namespace ByteTilesReaderWriter
     /// </summary>
     public class ByteTilesWriter
     {
-        static long Position;
-        const int StartByteLength = 40;
+        static long Position;        
         static string OutputFile;
         static ByteRangeMetadata byteRangeMetadata;
         static FileStream FileStream;
@@ -49,7 +48,6 @@ namespace ByteTilesReaderWriter
             int total = tiles.Count;                        
             object sync = new();            
             Parallel.ForEach(tiles,
-                //new ParallelOptions() { MaxDegreeOfParallelism = 1 }, 
                 tilesRow =>
                 {                    
                     lock (sync)
@@ -86,7 +84,7 @@ namespace ByteTilesReaderWriter
 
         static void WriteStartByte(ByteRange byteRange)
         {
-            string startByte = byteRange.ToString().PadRight(StartByteLength, ' ');
+            string startByte = byteRange.ToString().PadRight(ByteTiles.StartByteRange, ' ');
             byte[] byteArray = Encoding.UTF8.GetBytes(startByte);
             FileStream.Write(byteArray, 0, byteArray.Length);            
         }

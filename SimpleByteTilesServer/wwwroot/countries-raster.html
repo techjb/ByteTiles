@@ -36,15 +36,15 @@
                         'tiles': [
                             fullLocation + "/tile/countries-raster/{z}/{x}/{y}.png"
                         ],
-                        'tileSize': 256
+                        'tileSize': 256,
+                        'maxzoom': 6
                     }
                 },
                 'layers': [
                     {
                         'id': 'simple-tiles',
                         'type': 'raster',
-                        'source': 'raster-tiles',
-                        'minzoom': 0
+                        'source': 'raster-tiles'
                     }
                 ]
             },

@@ -36,16 +36,15 @@
                         'tiles': [
                             fullLocation + "/tile/satellite-lowres/{z}/{x}/{y}.jpg"
                         ],
-                        'tileSize': 256
+                        'tileSize': 256,
+                        'maxzoom': 5
                     }
                 },
                 'layers': [
                     {
                         'id': 'simple-tiles',
                         'type': 'raster',
-                        'source': 'raster-tiles',
-                        'minzoom': 0,
-                        'maxzoom': 5
+                        'source': 'raster-tiles'
                     }
                 ]
             },

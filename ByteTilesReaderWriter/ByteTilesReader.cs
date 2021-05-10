@@ -11,8 +11,7 @@ namespace ByteTilesReaderWriter
     /// </summary>
     public class ByteTilesReader
     {
-        private readonly string InputFile;
-        private const int StartByteLength = 40;
+        private readonly string InputFile;        
         private readonly ByteRangeMetadata ByteRangeMetadata;
 
         public ByteTilesReader(string inputFile)
@@ -77,9 +76,9 @@ namespace ByteTilesReaderWriter
         private string GetByteRangeMetadata()
         {            
             using FileStream fileStream = new(InputFile, FileMode.Open, FileAccess.Read);
-            byte[] byteArray = new byte[StartByteLength];
-            fileStream.Seek(-StartByteLength, SeekOrigin.End);
-            fileStream.Read(byteArray, 0, StartByteLength);
+            byte[] byteArray = new byte[ByteTiles.StartByteRange];
+            fileStream.Seek(-ByteTiles.StartByteRange, SeekOrigin.End);
+            fileStream.Read(byteArray, 0, ByteTiles.StartByteRange);
             string byteRangeMetadata = Encoding.UTF8.GetString(byteArray).Trim();
             ByteRange byteRange = new (byteRangeMetadata);
 

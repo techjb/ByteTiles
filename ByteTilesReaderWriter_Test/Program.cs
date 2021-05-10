@@ -16,7 +16,6 @@ namespace ByteTilesReaderWriter_Test
             //WriteByteTilesFile("satellite-lowres");
             //WriteByteTilesFile("countries-vector");
             //WriteByteTilesFile("countries-raster");
-            //WriteByteTilesFile("buildings");
 
             //ReadByteTilesFile("europolis");
             //ReadByteTilesFile("satellite-lowres");
