@@ -1,8 +1,5 @@
 <p align="center">
-  <a href="https://nextjs.org">
-    <img src="ByteTilesLogo/logo.svg" height="256">
-    <h1 align="center">ByteTiles</h1>
-  </a>
+  <img src="ByteTilesLogo/logo.svg" height="256">  
 </p>
 
 # ByteTiles
