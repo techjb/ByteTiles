@@ -1,11 +1,13 @@
 <p align="center">
   <a href="https://nextjs.org">
-    <img src="ByteTilesLogo/logo.svg" height="128">
+    <img src="ByteTilesLogo/logo.svg" height="256">
     <h1 align="center">ByteTiles</h1>
   </a>
 </p>
 
-File format for storing tilesets. Mainly designed to fetch tiles by a range of bytes.
+# ByteTiles
+
+File format for storing tilesets. Designed to fetch tiles by a range of bytes.
 
 A [MBTiles](https://docs.mapbox.com/help/glossary/mbtiles/) file contains a SQLite database and needs to be loaded in memory before requesting data. 
 Instead a **ByteTiles** file constains a list of tiles and a dictionary (tile key - byte range) that indicates the position in the file for any tile. 
@@ -14,14 +16,13 @@ The dictionary is thinked to be loaded in memory and then used to locate the til
 
 ## Bennefits
 
-* Reduce cost of serving map tiles: A **.bytetiles** file can be uploaded in [Amazon S3](https://aws.amazon.com/s3/) and then fetch tiles by it range of bytes.
-* Reduce storage size: **.bytetiles** files are 5-10% smaller than **.mbtiles** files.
-* Faster to update: Instead of extracting the files contained in **.mbtiles** and upload them all to S3, a **.bytetile** file contains all in a single file.
+* Reduce cost of serving map tiles: Upload a **ByteTiles** file to [Amazon S3](https://aws.amazon.com/s3/) and then fetch tiles by it range of bytes.
+* Reduce storage size: **ByteTiles** files are 5-10% smaller than **MBTiles** files.
+* Faster update: Instead of extracting the files contained in **MBTiles** and upload them all to S3, a **ByteTiles** file contains all in a single file.
 
 
 ## Built With
 
-* [MBTiles](https://wiki.openstreetmap.org/wiki/MBTiles)
 * C#
 * JavasScript
 
