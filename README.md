@@ -2,17 +2,20 @@
 
 ![ByteTiles][product-screenshot]
 
-Parse [MBTiles](https://docs.mapbox.com/help/glossary/mbtiles/) file in a format readable by [Amazon S3](https://aws.amazon.com/s3/). 
+File format for storing tilesets and designed to fetch tiles by a range of bytes.
 
-A **.mbtiles** file contains a SQLite database and needs to be loaded in memory before requesting data. 
-Instead a **.bytetiles** file constains a list of tiles and a dictionary (tile key and byte range) that indicates the position in the file to every tile that can be requested directly.
+A [MBTiles](https://docs.mapbox.com/help/glossary/mbtiles/) file contains a SQLite database and needs to be loaded in memory before requesting data. 
+Instead a **ByteTiles** file constains a list of tiles and a dictionary (tile key - byte range) that indicates the position in the file for any tile. 
+The dictionary is ready to be loaded in memory and then used to locate the tiles in the file.
+
+A **.bytetiles** file can be uploaded in [Amazon S3](https://aws.amazon.com/s3/) and then fetch tiles by it range of bytes.
 
 
 ## Bennefits
 
 * Reduce cost of serving map tiles.
-* Reduce storage.
-* Easy to update. Instead of extracting the files contained in **.mbtiles** and the upload them all to S3, a **.bytetile** file contains all in a single file.
+* Reduce storage size (**.bytetiles** files are 5-10% smaller than **.mbtiles** files).
+* Faster update: Instead of extracting the files contained in **.mbtiles** and upload them all to S3, a **.bytetile** file contains all in a single file.
 
 
 ## Built With
@@ -22,12 +25,15 @@ Instead a **.bytetiles** file constains a list of tiles and a dictionary (tile k
 * JavasScript#
 
 
-<!-- DEMO EXAMPLES -->
+## Specification
+
+ByteTiles specification is provided in the [ByteTilesSpec](https://github.com/techjb/ByteTiles/tree/master/ByteTilesSpec) folder.
+
 ## Examples
 
 Examples are contained in the **SimpleByteTilesServer** and **ByteTilesReaderWriter_Test** projects.
 
-<!-- INSTALATION -->
+
 ## Installation
 
 1. Clone the repo
@@ -39,23 +45,20 @@ Examples are contained in the **SimpleByteTilesServer** and **ByteTilesReaderWri
    npm install
    ```
 
-<!-- Content -->
 ## Content
-The package contains the following proyects:
+The package contains the following directories:
 
 * *ByteTilesReaderWriter*: Library to parse a **.mbtiles** file to **.bytetiles** file and read tiles data.
 * *ByteTilesReaderWriter_Test*: Test for the **ByteTilesReaderWriter** library.
 * *SimpleByteTilesServer*: Simple ByteTiles server with examples.
-* *ByteTilesLogo*: ByteTiles Logo files.
+* *ByteTilesLogo*: ByteTiles logo files.
 * *ByteTilesSpec*: ByteTiles specifications.
 
-<!-- ROADMAP -->
 ## Roadmap
 
 See the [open issues](https://github.com/techjb/ByteTiles/issues) for a list of proposed features (and known issues).
 
 
-<!-- CONTRIBUTING -->
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -66,13 +69,11 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<!-- LICENSE -->
 ## License
 
 See [license](https://github.com/techjb/ByteTiles/blob/master/LICENSE.txt) for more information.
 
 
-<!-- CONTACT -->
 ## Contact
 
 Jesús Barrio - [@techjb](https://twitter.com/techjb)

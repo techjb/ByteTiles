@@ -1,5 +1,6 @@
 ﻿using ByteTilesReaderWriter;
 using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -17,14 +18,19 @@ namespace SimpleByteTilesServer
         {            
             ByteTilesReader byteTilesReader = new(file);
             Dictionary<string, string> tilesDictionary = byteTilesReader.GetTilesDictionary();
+            Tuple<string, Dictionary<string, string>> tuple = new(file, tilesDictionary);
             string id = Path.GetFileNameWithoutExtension(file);
-            MemoryCache.Set(id, tilesDictionary);
+            MemoryCache.Set(id, tuple);
         }
 
-        public Dictionary<string, string> GetTilesDictionary(string id)
+        public byte[] GetTile(string id, int x, int y, int z)
         {
-            MemoryCache.TryGetValue(id, out Dictionary<string, string> dictionary);
-            return dictionary;
+            MemoryCache.TryGetValue(id, out Tuple<string, Dictionary<string, string>> tuple);
+            string file = tuple.Item1;
+            Dictionary<string, string> dictionary = tuple.Item2;
+
+            ByteTilesReader byteTilesReader = new(file);
+            return byteTilesReader.GetTile(x, y, z, dictionary);
         }
     }
 }

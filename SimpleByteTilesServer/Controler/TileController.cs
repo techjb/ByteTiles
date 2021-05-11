@@ -1,5 +1,4 @@
-﻿using ByteTilesReaderWriter;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +9,6 @@ namespace SimpleByteTilesServer.Controler
     [Route("tile/{id}/{z}/{x}/{y}.{format}")]
     public class TileController : Controller
     {
-        private readonly string filePath = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\";
         private readonly IMemoryCache MemoryCache;
 
         public TileController(IMemoryCache memoryCache)
@@ -20,11 +18,7 @@ namespace SimpleByteTilesServer.Controler
 
         public ActionResult Get(string id, int z, int x, int y, string format)
         {
-            string file = filePath + id + ".bytetiles";
-            
-            Dictionary<string, string> tiles = new ByteTilesCache(MemoryCache).GetTilesDictionary(id);
-            ByteTilesReader byteTilesReader = new(file);
-            byte[] bytes = byteTilesReader.GetTile(x, y, z, tiles);
+            byte[] bytes = new ByteTilesCache(MemoryCache).GetTile(id, x, y, z);            
             string contentType = string.Empty;
             switch (format)
             {

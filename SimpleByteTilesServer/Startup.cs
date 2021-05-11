@@ -56,8 +56,8 @@ namespace SimpleByteTilesServer
 
         private static void CacheTilesDictionaries(IWebHostEnvironment env, IMemoryCache memoryCache)
         {
-            var contentRoot = Directory.GetParent(env.ContentRootPath) 
-                +  @"\ByteTilesReaderWriter_Test\files\";
+            var contentRoot = Directory.GetParent(env.ContentRootPath)
+                + @"\ByteTilesReaderWriter_Test\files\";
 
             string file1 = contentRoot + "countries-vector.bytetiles";
             string file2 = contentRoot + "countries-raster.bytetiles";
@@ -68,7 +68,7 @@ namespace SimpleByteTilesServer
             byteTilesCache.SetTilesDictionary(file1);
             byteTilesCache.SetTilesDictionary(file2);
             byteTilesCache.SetTilesDictionary(file3);
-            byteTilesCache.SetTilesDictionary(file4);            
+            byteTilesCache.SetTilesDictionary(file4);
         }
     }
 }

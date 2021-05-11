@@ -12,10 +12,10 @@ namespace ByteTilesReaderWriter_Test
 
         static void Main(string[] args)
         {
-            //WriteByteTilesFile("europolis");
-            //WriteByteTilesFile("satellite-lowres");
-            //WriteByteTilesFile("countries-vector");
-            //WriteByteTilesFile("countries-raster");
+            //WriteByteTilesFile("europolis", false);
+            //WriteByteTilesFile("satellite-lowres", false);
+            //WriteByteTilesFile("countries-vector", false);
+            //WriteByteTilesFile("countries-raster", false);
 
             //ReadByteTilesFile("europolis");
             //ReadByteTilesFile("satellite-lowres");
@@ -26,11 +26,11 @@ namespace ByteTilesReaderWriter_Test
             //ExtractByteTilesFiles("countries-raster");
         }
 
-        static void WriteByteTilesFile(string file)
+        static void WriteByteTilesFile(string file, bool decompress)
         {
             string input = FilesPath + file + ".mbtiles";
             string output = FilesPath + file + ".bytetiles";
-            ByteTilesWriter.ParseMbtiles(input, output);
+            ByteTilesWriter.ParseMbtiles(input, output, decompress);
         }
 
         static void ReadByteTilesFile(string file)

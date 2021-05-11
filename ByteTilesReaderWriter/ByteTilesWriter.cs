@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.IO.Compression;
+using System;
 
 namespace ByteTilesReaderWriter
 {
@@ -22,7 +24,8 @@ namespace ByteTilesReaderWriter
         /// </summary>
         /// <param name="input">.mbtiles file</param>
         /// <param name="output">.bytetiles file</param>
-        public static void ParseMbtiles(string input, string output)
+        /// <param name="decompress">GZip decompress (for .pfb content)</param>
+        public static void ParseMbtiles(string input, string output, bool decompress = false)
         {
             MBTilesReader mBTilesReader = new(input);
             Position = 0;
@@ -31,17 +34,18 @@ namespace ByteTilesReaderWriter
             byteRangeMetadata = new ByteRangeMetadata();
 
             FileStream = new FileStream(OutputFile, FileMode.Append, FileAccess.Write);
-            WriteTableTiles(mBTilesReader);
+            WriteTableTiles(mBTilesReader, decompress);
             WriteTableMetadata(mBTilesReader);
             ByteRange byteRange = WriteByteRangeMetadata();
             WriteStartByte(byteRange);
             FileStream.Close();
         }
        
-        static void WriteTableTiles(MBTilesReader mBTilesReader)
+        static void WriteTableTiles(MBTilesReader mBTilesReader, bool decompress)
         {
             var tiles = mBTilesReader.GetTiles();        
             Position = 0;
+            int counter = 0;
             string percentageDone = string.Empty;                    
 
             Dictionary<string, string> dictionaryMap = new();
@@ -49,25 +53,46 @@ namespace ByteTilesReaderWriter
             object sync = new();            
             Parallel.ForEach(tiles,
                 tilesRow =>
-                {                    
+                {
+                    byte[] bytes = tilesRow.Tile_data;
+                    if (decompress)
+                    {
+                        bytes = Decompress(bytes);
+                    }
                     lock (sync)
                     {
-                        ByteRange byteRange = Write(tilesRow.Tile_data);                      
+                        ByteRange byteRange = Write(bytes);                      
                         string tileKey = tilesRow.TileKey().ToString();
                         dictionaryMap.Add(tileKey, byteRange.ToString());
-                        //counter++;
-                        //double percentage = counter * 100 / total;
-                        //string percentageDoneAux = percentage.ToString("#.#");
-                        //if (!percentageDone.Equals(percentageDoneAux))
-                        //{
-                        //    percentageDone = percentageDoneAux;
-                        //    Console.WriteLine("Completed " + percentageDone + "%");
-                        //}
+
+                        counter++;
+                        double percentage = counter * 100 / total;
+                        string percentageDoneAux = percentage.ToString("#.#");
+                        if (!percentageDone.Equals(percentageDoneAux))
+                        {
+                            percentageDone = percentageDoneAux;
+                            Console.WriteLine("Completed " + percentageDone + "%");
+                        }
                     }
                 });
 
             string dictionary = JsonSerializer.Serialize(dictionaryMap);            
             byteRangeMetadata.TilesDictionary = Write(dictionary);
+        }
+
+        public static byte[] Decompress(byte[] bytes)
+        {
+            MemoryStream memoryStream = new(bytes);
+            GZipStream gZipStream = new(memoryStream, CompressionMode.Decompress, true);
+            List<byte> list = new();
+
+            int bytesRead = gZipStream.ReadByte();
+            while (bytesRead != -1)
+            {
+                list.Add((byte)bytesRead);
+                bytesRead = gZipStream.ReadByte();
+            }
+            return list.ToArray();
         }
 
         static void WriteTableMetadata(MBTilesReader mBTilesReader)
