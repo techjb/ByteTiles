@@ -18,7 +18,7 @@ namespace ByteTilesReaderWriter_Test
             //WriteByteTilesFile("countries-raster", false);
 
             //ReadByteTilesFile("europolis");
-            //ReadByteTilesFile("satellite-lowres");
+            ReadByteTilesFile("satellite-lowres");
             //ReadByteTilesFile("countries-vector");
             //ReadByteTilesFile("countries-raster");
 
