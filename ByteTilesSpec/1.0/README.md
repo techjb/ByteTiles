@@ -17,10 +17,10 @@ All text a ByteTiles file MUST be encoded as UTF-8.
 
 ByteTiles is thinked to be created from an mbtiles file. See the [MBTiles 1.3 Specification](https://github.com/mapbox/mbtiles-spec/blob/master/1.3/spec.md). Differences are:
 
-* MBTiles follows the [Tile Map Service Specification](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification) (TMS) scheme. ByteTiles instead
+* MBTiles follows the [TMS](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification) scheme and ByteTiles instead
 follows the XYZ scheme. See how [to convert](https://gist.github.com/tmcw/4954720).
 
-* The `medatada` table in mbtiles is parsed to a key-value json list.
+* The `medatada` table in mbtiles is a key-value json.
 
 ## Definitions
 
@@ -98,7 +98,7 @@ The column `tile_data` in the MBTiles is written as it is in the ByteTiles. Deco
 
 The table `metadata` in the MBTiles is parsed to a key-value list in json format.
 
-## Read metadata
+## Reading metadata
 
 The flow for reading the `metadata` table in a ByteTiles file is:
 
@@ -106,7 +106,7 @@ The flow for reading the `metadata` table in a ByteTiles file is:
 2. Read header and get the byte range of the key `medatada`.
 3. Read the metadata.
 
-## Read tiles
+## Reading tiles
 
 The flow for reading a XYZ tile in a ByteTiles file is:
 
