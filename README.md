@@ -1,6 +1,9 @@
-# ByteTiles
-
-![ByteTiles][product-screenshot]
+<p align="center">
+  <a href="https://nextjs.org">
+    <img src="ByteTilesLogo/logo.svg" height="128">
+    <h1 align="center">ByteTiles</h1>
+  </a>
+</p>
 
 File format for storing tilesets. Mainly designed to fetch tiles by a range of bytes.
 
@@ -11,16 +14,16 @@ The dictionary is thinked to be loaded in memory and then used to locate the til
 
 ## Bennefits
 
-* Reduce cost of serving map tiles: a **.bytetiles** file can be uploaded in [Amazon S3](https://aws.amazon.com/s3/) and then fetch tiles by it range of bytes.
-* Reduce storage size (**.bytetiles** files are 5-10% smaller than **.mbtiles** files).
-* Faster to update: instead of extracting the files contained in **.mbtiles** and upload them all to S3, a **.bytetile** file contains all in a single file.
+* Reduce cost of serving map tiles: A **.bytetiles** file can be uploaded in [Amazon S3](https://aws.amazon.com/s3/) and then fetch tiles by it range of bytes.
+* Reduce storage size: **.bytetiles** files are 5-10% smaller than **.mbtiles** files.
+* Faster to update: Instead of extracting the files contained in **.mbtiles** and upload them all to S3, a **.bytetile** file contains all in a single file.
 
 
 ## Built With
 
 * [MBTiles](https://wiki.openstreetmap.org/wiki/MBTiles)
 * C#
-* JavasScript#
+* JavasScript
 
 
 ## Specification
@@ -29,7 +32,7 @@ ByteTiles specification is provided in the [ByteTilesSpec](https://github.com/te
 
 ## Examples
 
-Examples are contained in the **SimpleByteTilesServer** and **ByteTilesReaderWriter_Test** projects.
+Some examples are contained in the **SimpleByteTilesServer** and **ByteTilesReaderWriter_Test** projects.
 
 
 ## Installation
@@ -46,7 +49,7 @@ Examples are contained in the **SimpleByteTilesServer** and **ByteTilesReaderWri
 ## Content
 The package contains the following directories:
 
-* *ByteTilesReaderWriter*: Library to parse a **.mbtiles** file to **.bytetiles** file and read tiles data.
+* *ByteTilesReaderWriter*: Library to parse a **.mbtiles** file to **.bytetiles** file, read tiles and extract files to folder.
 * *ByteTilesReaderWriter_Test*: Test for the **ByteTilesReaderWriter** library.
 * *SimpleByteTilesServer*: Simple ByteTiles server with examples.
 * *ByteTilesLogo*: ByteTiles logo files.
@@ -77,7 +80,3 @@ See [license](https://github.com/techjb/ByteTiles/blob/master/LICENSE.txt) for m
 Jesús Barrio - [@techjb](https://twitter.com/techjb)
 
 Project Link: [https://github.com/techjb/ByteTiles](https://github.com/techjb/ByteTiles)
-
-<!-- MARKDOWN LINKS & IMAGES -->
-
-[product-screenshot]: ByteTilesLogo/logo_small.png
