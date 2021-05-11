@@ -2,7 +2,7 @@
 
 ![ByteTiles][product-screenshot]
 
-File format for storing tilesets and designed to fetch tiles by a range of bytes.
+File format for storing tilesets. Mainly designed to fetch tiles by a range of bytes.
 
 A [MBTiles](https://docs.mapbox.com/help/glossary/mbtiles/) file contains a SQLite database and needs to be loaded in memory before requesting data. 
 Instead a **ByteTiles** file constains a list of tiles and a dictionary (tile key - byte range) that indicates the position in the file for any tile. 
