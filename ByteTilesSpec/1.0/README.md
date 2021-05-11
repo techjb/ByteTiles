@@ -15,12 +15,12 @@ All text a ByteTiles file MUST be encoded as UTF-8.
 
 ## Differences with MBTiles
 
-ByteTiles is thinked to be created from an mbtiles file. See the [MBTiles 1.3 Specification](https://github.com/mapbox/mbtiles-spec/blob/master/1.3/spec.md). The only differences are:
+ByteTiles is thinked to be created from an mbtiles file. See the [MBTiles 1.3 Specification](https://github.com/mapbox/mbtiles-spec/blob/master/1.3/spec.md). Differences are:
 
 * MBTiles follows the [Tile Map Service Specification](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification) (TMS) scheme. ByteTiles instead
 follows the XYZ scheme. See how [to convert](https://gist.github.com/tmcw/4954720).
 
-* The `medatada` table in mbtiles is parsed in a key-value json called `medatada`.
+* The `medatada` table in mbtiles is parsed to a key-value json list.
 
 ## Definitions
 
@@ -100,7 +100,7 @@ The table `metadata` in the MBTiles is parsed to a key-value list in json format
 
 ## Read metadata
 
-The flow for reading the `metadata` table in a ByteTiles file is the following:
+The flow for reading the `metadata` table in a ByteTiles file is:
 
 1. Read the las 50 bytes to get the byte range of header.
 2. Read header and get the byte range of the key `medatada`.
@@ -108,7 +108,7 @@ The flow for reading the `metadata` table in a ByteTiles file is the following:
 
 ## Read tiles
 
-The flow for reading a XYZ tile in a ByteTiles file is the following:
+The flow for reading a XYZ tile in a ByteTiles file is:
 
 1. Read the las 50 bytes to get the byte range of header.
 2. Read header and get the byte range of the key `tiles_dictionary`.

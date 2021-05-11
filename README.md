@@ -8,14 +8,14 @@ File format for storing tilesets. Designed to fetch tiles by a range of bytes.
 
 A [MBTiles](https://docs.mapbox.com/help/glossary/mbtiles/) file contains a SQLite database and needs to be loaded in memory before requesting data. 
 Instead a **ByteTiles** file constains a list of tiles and a dictionary (tile key - byte range) that indicates the position in the file for any tile. 
-The dictionary is thinked to be loaded in memory and then used to locate the tiles in the file.
+The dictionary is thinked to be loaded in a fast memory access (cache or database) to locate the tiles.
 
 
 ## Bennefits
 
-* Reduce cost of serving map tiles: Upload a **ByteTiles** file to [Amazon S3](https://aws.amazon.com/s3/) and then fetch tiles by it range of bytes.
+* Reduce cost: Upload a **ByteTiles** file to [Amazon S3](https://aws.amazon.com/s3/) and then fetch tiles by it range of bytes.
 * Reduce storage size: **ByteTiles** files are 5-10% smaller than **MBTiles** files.
-* Faster update: Instead of extracting the files contained in **MBTiles** and upload them all to S3, a **ByteTiles** file contains all in a single file.
+* Faster update: Instead of extracting the files contained in **MBTiles** and upload them all to S3, **ByteTiles** contains all in a single file.
 
 
 ## Built With
