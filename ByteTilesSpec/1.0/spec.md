@@ -11,29 +11,57 @@ ByteTiles files, MUST implement the specification below to ensure compatibility 
 
 ## Charset
 
-All text in `text` columns of tables in an mbtiles tileset MUST be encoded as UTF-8.
+All text a bytetiles file MUST be encoded as UTF-8.
 
-## MBTiles 
+## Parse from MBTiles 
 
 ByteTiles is thinked to be created from an mbtiles file. See the [MBTiles 1.3 Specification](https://github.com/mapbox/mbtiles-spec/blob/master/1.3/spec.md).
 
 MBTiles follows the [Tile Map Service Specification](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification) (TMS) scheme. ByteTiles instead
 follows the XYZ scheme. See how [to convert](https://gist.github.com/tmcw/4954720).
 
-## Byte range
+The `medatada` table in mbtiles is parsed in a key-value json called `medatada`.
+
+## Definitions
+
+### Byte range
 
 A byte range is defined by a start position and length in bytes separated by `-` character. 
 For example the byte range `822834-234` indicates the position `822834` from the start of the file and a
 length of `234` bytes.
 
-## Tile key
+### Tile key
 
 A tile key is the XYZ unique identifier for a tile separated by `/` character. 
-For example the tile key `8015/6171/14` corresponds to X: 8015, Y: 6171, Z: 14.
+For example the tile key `8015/6171/14` corresponds to x: 8015, y: 6171, z: 14.
 
-## Tiles dictionary
+### Header
 
-A key-value pair json that matched a tile key to a byte range. Example:
+The header is a json containing metadata of the ByteTiles file. We call it header to avoid misunderstandings with the metadata mbtiles table.
+
+The header MUST contains a key named `version` with the ByteTiles version specification.
+
+The header MUST constain a key named `metadata` with the byte range of the metadata json.
+
+The header MUST constain a key named `tiles_dictionary` with the byte range of the table tiles dictionary.
+
+The header MAY contain a key named `grids_dictionary` with the byte range of the table grids dictionary.
+
+The header MAY contain a key named `grid_data_dictionary` with the byte range of the table grid_data dictionary.
+
+Example of ByteTiles header:
+
+```
+{
+   "version":"1.0",
+   "metadata":"8170242-538",
+   "tiles_dictionary":"8137245-32997"
+}
+```
+
+### Dictionary
+
+A key-value pair json that matches a tile key with a byte range. An example of tiles dictionary:
 
 ```
 {
@@ -50,3 +78,40 @@ A key-value pair json that matched a tile key to a byte range. Example:
 }
 
 ```
+
+## Bytes reserved
+
+The last 50 bytes MUST be reserved for the byte range of header. It will be used for the first time 
+when accesing the file in order to read the rest of the data. Empty space are filled with ` `. Example:
+
+```
+8170780-80                                        
+```
+
+## File content
+
+The content of a ByteTiles file is the same as the content of a MBTiles file and it is stored as an array of bytes.
+
+The columns `tile_column`, `tile_row` and `zoom_level` in the MBTiles file, are used to create a tile key following the XYZ schema.
+
+The column `tile_data` in the MBTiles is written as it is in the ByteTiles. Decompression is OPTIONAL (for example for `pbf` compressed content).
+
+The table `metadata` in the MBTiles is parsed to json.
+
+## How to read metadata
+
+The flow for reading the metadata rable in a ByteTiles file is the following:
+
+1. Read the las 50 bytes to get the byte range of header.
+2. Read header and get the byte range of the key `medatada`.
+3. Read the metadata.
+
+## How to read tiles
+
+The flow for reading a XYZ tile in a ByteTiles file is the following:
+
+1. Read the las 50 bytes to get the byte range of header.
+2. Read header and get the byte range of the key `tiles_dictionary`.
+3. Read the tiles dictionary and get the byte range for the XYZ key. 
+4. Read the tile.
+

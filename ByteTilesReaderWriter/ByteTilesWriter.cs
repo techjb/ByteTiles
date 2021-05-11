@@ -16,7 +16,7 @@ namespace ByteTilesReaderWriter
     {
         static long Position;        
         static string OutputFile;
-        static ByteRangeMetadata byteRangeMetadata;
+        static Header byteRangeMetadata;
         static FileStream FileStream;
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace ByteTilesReaderWriter
             Position = 0;
             OutputFile = output;
             File.Delete(OutputFile);
-            byteRangeMetadata = new ByteRangeMetadata();
+            byteRangeMetadata = new Header();
 
             FileStream = new FileStream(OutputFile, FileMode.Append, FileAccess.Write);
             WriteTableTiles(mBTilesReader, decompress);
@@ -109,7 +109,7 @@ namespace ByteTilesReaderWriter
 
         static void WriteStartByte(ByteRange byteRange)
         {
-            string startByte = byteRange.ToString().PadRight(ByteTiles.StartByteRange, ' ');
+            string startByte = byteRange.ToString().PadRight(ByteTiles.HeaderByteRangeLength, ' ');
             byte[] byteArray = Encoding.UTF8.GetBytes(startByte);
             FileStream.Write(byteArray, 0, byteArray.Length);            
         }

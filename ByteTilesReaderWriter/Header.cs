@@ -4,9 +4,9 @@ using System.Text.Json;
 namespace ByteTilesReaderWriter
 {
     /// <summary>
-    /// List of byte range (start byte position and length) for each table.
+    /// Header metadata with a list of byte range (start byte position and length) for each table.
     /// </summary>
-    public class ByteRangeMetadata
+    public class Header
     {
         public string Version = "1.0";
 
@@ -18,12 +18,12 @@ namespace ByteTilesReaderWriter
 
         public ByteRange GridDataDictionary { get; set; } // Table grid_data dictinary
 
-        public ByteRangeMetadata()
+        public Header()
         {
 
         }
 
-        public ByteRangeMetadata(string json)
+        public Header(string json)
         {
             var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
             Version = keyValuePairs["version"];

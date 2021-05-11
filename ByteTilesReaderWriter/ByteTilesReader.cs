@@ -12,25 +12,25 @@ namespace ByteTilesReaderWriter
     public class ByteTilesReader
     {
         private readonly string InputFile;        
-        private readonly ByteRangeMetadata ByteRangeMetadata;
+        private readonly Header Header;
 
         public ByteTilesReader(string inputFile)
         {
             InputFile = inputFile;
-            string json = GetByteRangeMetadata();
-            ByteRangeMetadata = new ByteRangeMetadata(json);
+            string json = GetHeader();
+            Header = new Header(json);
         }
 
         public Dictionary<string, string> GetMetadata()
         {
-            byte[] byteArray = GetData(ByteRangeMetadata.MetaData);
+            byte[] byteArray = GetData(Header.MetaData);
             string metadata = Encoding.UTF8.GetString(byteArray);
             return JsonSerializer.Deserialize<Dictionary<string, string>>(metadata);
         }
 
         public Dictionary<string, string> GetTilesDictionary()
         {
-            byte[] byteArray = GetData(ByteRangeMetadata.TilesDictionary);
+            byte[] byteArray = GetData(Header.TilesDictionary);
             string json = Encoding.UTF8.GetString(byteArray);
             return JsonSerializer.Deserialize<Dictionary<string, string>>(json);
         }
@@ -73,14 +73,14 @@ namespace ByteTilesReaderWriter
             return byteArray;
         }
 
-        private string GetByteRangeMetadata()
+        private string GetHeader()
         {            
             using FileStream fileStream = new(InputFile, FileMode.Open, FileAccess.Read);
-            byte[] byteArray = new byte[ByteTiles.StartByteRange];
-            fileStream.Seek(-ByteTiles.StartByteRange, SeekOrigin.End);
-            fileStream.Read(byteArray, 0, ByteTiles.StartByteRange);
-            string byteRangeMetadata = Encoding.UTF8.GetString(byteArray).Trim();
-            ByteRange byteRange = new (byteRangeMetadata);
+            byte[] byteArray = new byte[ByteTiles.HeaderByteRangeLength];
+            fileStream.Seek(-ByteTiles.HeaderByteRangeLength, SeekOrigin.End);
+            fileStream.Read(byteArray, 0, ByteTiles.HeaderByteRangeLength);
+            string headerByteRange = Encoding.UTF8.GetString(byteArray).Trim();
+            ByteRange byteRange = new (headerByteRange);
 
             byteArray = new byte[byteRange.Length];
             fileStream.Seek(byteRange.Position, SeekOrigin.Begin);

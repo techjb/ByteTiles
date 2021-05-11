@@ -5,6 +5,6 @@
         /// <summary>
         /// Start position from the end of the file.
         /// </summary>
-        public const int StartByteRange = 50;
+        public const int HeaderByteRangeLength = 50;
     }
 }
