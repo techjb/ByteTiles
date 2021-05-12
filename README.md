@@ -55,14 +55,16 @@ The package contains the following directories:
 * *ByteTilesLogo*: ByteTiles logo files.
 * *ByteTilesSpec*: ByteTiles specifications.
 
-## Usage
+## Library usage
+
+Some examples for the use of the library *ByteTilesReaderWriter*.
 
 Parse .mbtiles file to .bytetiles file:
 ```csharp
 ByteTilesWriter.ParseMBTiles("input_file.mbtiles", "output_file.bytetiles");
 ```
 
-Read a tiles:
+Read tiles:
 ```csharp
 var byteTilesReader = new ByteTilesReader("input_file.bytetiles");
 byte[] tile = byteTilesReader.GetTile(x, y, z);
@@ -80,10 +82,10 @@ var byteTilesReader = new ByteTilesReader("input_file.bytetiles");
 var metadata = byteTilesReader.GetMetadata();
 ```
 
-Extract files from .bytetiles to directory.
+Extract .bytetiles files to directory.
 ```csharp
-ByteTilesExtractor byteTilesExtractor = new("input_file.bytetiles");
-byteTilesExtractor.ExtractTiles("output_directory");
+var byteTilesExtractor = new ByteTilesExtractor("input_file.bytetiles");
+byteTilesExtractor.ExtractFiles("output_directory");
 ```
 
 ## Roadmap

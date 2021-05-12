@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ByteTilesReaderWriter
 {
     /// <summary>
-    /// Extract files contained in .bytetiles file in a output folder
+    /// Extract files (tiles and metadata) contained in .bytetiles file in a output folder
     /// </summary>
     public class ByteTilesExtractor
     {
@@ -20,7 +21,7 @@ namespace ByteTilesReaderWriter
             ByteTilesReader = new(InputFile);
         }
 
-        public void ExtractTiles(string outputDirectory)
+        public void ExtractFiles(string outputDirectory)
         {
             OutputPath = outputDirectory + Path.GetFileNameWithoutExtension(InputFile) + "\\";
             DeleteDirectory();
@@ -33,6 +34,9 @@ namespace ByteTilesReaderWriter
             {
                 ExtractTile(keyValuePair, format);
             });
+
+            string jsonMetadata = JsonSerializer.Serialize(metadata);
+            File.WriteAllText(OutputPath + "metadata.json", jsonMetadata);
         }
 
         private void ExtractTile(KeyValuePair<string,string> keyValuePair, string format)

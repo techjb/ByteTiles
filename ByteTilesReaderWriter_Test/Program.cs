@@ -18,7 +18,7 @@ namespace ByteTilesReaderWriter_Test
             //WriteByteTilesFile("countries-raster", false);
 
             //ReadByteTilesFile("europolis");
-            ReadByteTilesFile("satellite-lowres");
+            //ReadByteTilesFile("satellite-lowres");
             //ReadByteTilesFile("countries-vector");
             //ReadByteTilesFile("countries-raster");
 
@@ -58,8 +58,8 @@ namespace ByteTilesReaderWriter_Test
         static void ExtractByteTilesFiles(string file)
         {
             string input = FilesPath + file + ".bytetiles";
-            ByteTilesExtractor byteTilesExtractor = new(input);
-            byteTilesExtractor.ExtractTiles(ExtractOutputDirectory);
+            var byteTilesExtractor = new ByteTilesExtractor(input);
+            byteTilesExtractor.ExtractFiles(ExtractOutputDirectory);
         }
     }
 }
