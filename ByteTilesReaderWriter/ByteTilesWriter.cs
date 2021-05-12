@@ -25,7 +25,7 @@ namespace ByteTilesReaderWriter
         /// <param name="input">.mbtiles file</param>
         /// <param name="output">.bytetiles file</param>
         /// <param name="decompress">GZip decompress (for .pfb content)</param>
-        public static void ParseMbtiles(string input, string output, bool decompress = false)
+        public static void ParseMBTiles(string input, string output, bool decompress = false)
         {
             MBTilesReader mBTilesReader = new(input);
             Position = 0;

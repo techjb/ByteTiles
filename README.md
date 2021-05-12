@@ -57,19 +57,26 @@ The package contains the following directories:
 
 ## Usage
 
-Parse .mbtiles file to .bytetiles file.
-
+Parse .mbtiles file to .bytetiles file:
 ```csharp
-ByteTilesWriter.ParseMbtiles("input_file.mbtiles", "output_file.bytetiles");
+ByteTilesWriter.ParseMBTiles("input_file.mbtiles", "output_file.bytetiles");
 ```
 
-Read tile, dictionary and metadata json from a .bytetiles file.
-
+Read a tiles:
 ```csharp
-var byteTilesReader = new ByteTilesReader(input);
-
+var byteTilesReader = new ByteTilesReader("input_file.bytetiles");
 byte[] tile = byteTilesReader.GetTile(x, y, z);
+```
+
+Read tiles dictionary:
+```csharp
+var byteTilesReader = new ByteTilesReader("input_file.bytetiles");
 var tilesDictionary = byteTilesReader.GetTilesDictionary();
+```
+
+Read json metadata:
+```csharp
+var byteTilesReader = new ByteTilesReader("input_file.bytetiles");
 var metadata = byteTilesReader.GetMetadata();
 ```
 
@@ -78,7 +85,6 @@ Extract files from .bytetiles to directory.
 ByteTilesExtractor byteTilesExtractor = new("input_file.bytetiles");
 byteTilesExtractor.ExtractTiles("output_directory");
 ```
-
 
 ## Roadmap
 

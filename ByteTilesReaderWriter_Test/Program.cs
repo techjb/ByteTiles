@@ -30,7 +30,7 @@ namespace ByteTilesReaderWriter_Test
         {
             string input = FilesPath + file + ".mbtiles";
             string output = FilesPath + file + ".bytetiles";
-            ByteTilesWriter.ParseMbtiles(input, output, decompress);
+            ByteTilesWriter.ParseMBTiles(input, output, decompress);
         }
 
         static void ReadByteTilesFile(string file)
