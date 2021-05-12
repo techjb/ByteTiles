@@ -46,6 +46,8 @@ Some examples are contained in the **SimpleByteTilesServer** and **ByteTilesRead
    npm install
    ```
 
+Additionally the [nuget package](https://www.nuget.org/packages/ByteTilesReaderWriter/) with the *ByteTilesReaderWriter* library can be installed.
+
 ## Content
 The package contains the following directories:
 

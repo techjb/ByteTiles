@@ -2,10 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>Jesús Barrio</Authors>
+    <Company>GoolInvent</Company>
+    <Product>ByteTiles</Product>
+    <Description>ByteTiles reader and writter. Parse a .mbtiles file to .bytetiles, read tiles and extract files to folder.</Description>
+    <PackageProjectUrl>https://github.com/techjb/ByteTiles</PackageProjectUrl>
+    <RepositoryType>https://github.com/techjb/ByteTiles</RepositoryType>
+    <PackageTags>bytetiles, mbtiles</PackageTags>
+    <PackageIcon>logo_small_icon_only.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\ByteTilesLogo\logo_small_icon_only.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
