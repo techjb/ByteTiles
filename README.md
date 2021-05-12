@@ -57,36 +57,41 @@ The package contains the following directories:
 
 ## Library usage
 
-Some examples for the use of the library *ByteTilesReaderWriter*.
+The library *ByteTilesReaderWriter* can be used as following.
 
-Parse .mbtiles file to .bytetiles file:
+* Parse .mbtiles to .bytetiles:
 ```csharp
 ByteTilesWriter.ParseMBTiles("input_file.mbtiles", "output_file.bytetiles");
 ```
 
-Read tiles:
+* Read tiles:
 ```csharp
 var byteTilesReader = new ByteTilesReader("input_file.bytetiles");
 byte[] tile = byteTilesReader.GetTile(x, y, z);
 ```
 
-Read tiles dictionary:
+* Read tiles dictionary:
 ```csharp
 var byteTilesReader = new ByteTilesReader("input_file.bytetiles");
 var tilesDictionary = byteTilesReader.GetTilesDictionary();
 ```
 
-Read json metadata:
+* Read json metadata:
 ```csharp
 var byteTilesReader = new ByteTilesReader("input_file.bytetiles");
 var metadata = byteTilesReader.GetMetadata();
 ```
 
-Extract .bytetiles files to directory.
+* Extract .bytetiles files to directory.
 ```csharp
 var byteTilesExtractor = new ByteTilesExtractor("input_file.bytetiles");
 byteTilesExtractor.ExtractFiles("output_directory");
 ```
+
+## Simple ByteTiles server usage
+
+Set the *SimpleByteTilesServer* as startup project and run. 
+The server will read tiles from the files of the *ByteTilesReaderWriter_Test* project.
 
 ## Roadmap
 
