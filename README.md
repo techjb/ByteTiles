@@ -4,9 +4,9 @@
 
 # ByteTiles
 
-File format specification that allows access to the contents of an [MBTiles](https://docs.mapbox.com/help/glossary/mbtiles/) file by byte range.
+File format for storing [TileSets](https://docs.mapbox.com/help/glossary/tileset/) and designed to be accessed by byte range.
 
-A  MBTiles file contains a SQLite database and needs to be loaded in memory before requesting data. 
+A [MBTiles](https://docs.mapbox.com/help/glossary/mbtiles/) file contains a SQLite database and needs to be loaded in memory before requesting data. 
 Instead a **ByteTiles** file constains a list of tiles and a dictionary (tile key - byte range) that indicates the position in the file for any tile. 
 The dictionary is thinked to be loaded in a fast memory access (cache or database) for a fast tile reading.
 
