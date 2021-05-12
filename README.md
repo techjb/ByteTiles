@@ -88,7 +88,7 @@ var byteTilesExtractor = new ByteTilesExtractor("input_file.bytetiles");
 byteTilesExtractor.ExtractFiles("output_directory");
 ```
 
-## Simple ByteTiles server usage
+## Server usage
 
 Set the *SimpleByteTilesServer* as startup project and run. 
 The server will read tiles from the files of the *ByteTilesReaderWriter_Test* project.
