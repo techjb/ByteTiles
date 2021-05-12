@@ -4,11 +4,11 @@
 
 # ByteTiles
 
-File format for storing tilesets. Designed to fetch tiles by a range of bytes.
+File format specification that allows access to the contents of an MBTiles file by byte range.
 
 A [MBTiles](https://docs.mapbox.com/help/glossary/mbtiles/) file contains a SQLite database and needs to be loaded in memory before requesting data. 
 Instead a **ByteTiles** file constains a list of tiles and a dictionary (tile key - byte range) that indicates the position in the file for any tile. 
-The dictionary is thinked to be loaded in a fast memory access (cache or database) to locate the tiles.
+The dictionary is thinked to be loaded in a fast memory access (cache or database) for a fast tile reading.
 
 
 ## Bennefits
@@ -52,6 +52,31 @@ The package contains the following directories:
 * *SimpleByteTilesServer*: Simple ByteTiles server with examples.
 * *ByteTilesLogo*: ByteTiles logo files.
 * *ByteTilesSpec*: ByteTiles specifications.
+
+## Usage
+
+Parse .mbtiles file to .bytetiles file.
+
+```csharp
+ByteTilesWriter.ParseMbtiles("input_file.mbtiles", "output_file.bytetiles");
+```
+
+Read tile, dictionary and metadata json from a .bytetiles file.
+
+```csharp
+var byteTilesReader = new ByteTilesReader(input);
+
+byte[] tile = byteTilesReader.GetTile(x, y, z);
+var tilesDictionary = byteTilesReader.GetTilesDictionary();
+var metadata = byteTilesReader.GetMetadata();
+```
+
+Extract files from .bytetiles to directory.
+```csharp
+ByteTilesExtractor byteTilesExtractor = new("input_file.bytetiles");
+byteTilesExtractor.ExtractTiles("output_directory");
+```
+
 
 ## Roadmap
 

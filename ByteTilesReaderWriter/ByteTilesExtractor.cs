@@ -20,9 +20,9 @@ namespace ByteTilesReaderWriter
             ByteTilesReader = new(InputFile);
         }
 
-        public void ExtractTiles(string outputPath)
+        public void ExtractTiles(string outputDirectory)
         {
-            OutputPath = outputPath + Path.GetFileNameWithoutExtension(InputFile) + "\\";
+            OutputPath = outputDirectory + Path.GetFileNameWithoutExtension(InputFile) + "\\";
             DeleteDirectory();
 
             var metadata = ByteTilesReader.GetMetadata();

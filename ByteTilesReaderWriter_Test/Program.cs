@@ -8,7 +8,7 @@ namespace ByteTilesReaderWriter_Test
     {
 
         private static string FilesPath = @"C:\Users\Chus\source\repos\ByteTiles\ByteTilesReaderWriter_Test\files\";
-        private static string ExtractOutputPath = @"C:\Users\Chus\Downloads\";
+        private static string ExtractOutputDirectory = @"C:\Users\Chus\Downloads\";
 
         static void Main(string[] args)
         {
@@ -44,8 +44,8 @@ namespace ByteTilesReaderWriter_Test
                 Console.WriteLine(entry.Key + " - " + entry.Value);
             }
 
-            var tiles = byteTilesReader.GetTilesDictionary();
-            foreach (KeyValuePair<string, string> tile in tiles)
+            var tilesDictionary = byteTilesReader.GetTilesDictionary();
+            foreach (KeyValuePair<string, string> tile in tilesDictionary)
             {
                 Console.WriteLine(tile.Key + " - " + tile.Value);
             }
@@ -59,7 +59,7 @@ namespace ByteTilesReaderWriter_Test
         {
             string input = FilesPath + file + ".bytetiles";
             ByteTilesExtractor byteTilesExtractor = new(input);
-            byteTilesExtractor.ExtractTiles(ExtractOutputPath);
+            byteTilesExtractor.ExtractTiles(ExtractOutputDirectory);
         }
     }
 }
