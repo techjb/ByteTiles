@@ -15,29 +15,28 @@ All text a ByteTiles file MUST be encoded as UTF-8.
 
 ## Differences with MBTiles
 
-ByteTiles is thinked to be created from an mbtiles file. See the [MBTiles 1.3 Specification](https://github.com/mapbox/mbtiles-spec/blob/master/1.3/spec.md). Differences are:
+ByteTiles is thinked to be created from an mbtiles file (See the [MBTiles 1.3 Specification](https://github.com/mapbox/mbtiles-spec/blob/master/1.3/spec.md)). Differences are:
 
 * MBTiles follows the [TMS](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification) scheme and ByteTiles instead
 follows the XYZ scheme. See how [to convert](https://gist.github.com/tmcw/4954720).
 
-* The `medatada` table in mbtiles is a key-value json.
+* The `medatada` table in mbtiles is a key-value json in ByteTiles.
 
 ## Definitions
-
-### Byte range
-
-A byte range is defined by a start *position* and *length* in bytes separated by `-` character. 
-For example the byte range `822834-234` indicates the position `822834` from the start of the file and a
-length of `234` bytes.
 
 ### Tile key
 
 A tile key is the XYZ identifier separated by `/` character. 
 For example the tile key `8015/6171/14` corresponds to x: 8015, y: 6171, z: 14.
 
+### Byte range
+
+A byte range is defined by a *position* from the beggining of the file and *length* in bytes separated by `-` character. 
+The byte range `822834-234` indicates the position `822834` and a length of `234` bytes.
+
 ### Header
 
-The header is a json containing metadata of the ByteTiles file. We call it header to avoid misunderstandings with the metadata mbtiles table.
+Json containing metadata of the ByteTiles file. We call it *header* to avoid misunderstandings with the *metadata* mbtiles table.
 
 * The header MUST contains a key named `version` with the ByteTiles version specification.
 
@@ -49,7 +48,7 @@ The header is a json containing metadata of the ByteTiles file. We call it heade
 
 * The header MAY contain a key named `grid_data_dictionary` with the byte range of the table grid_data dictionary.
 
-Example of ByteTiles header:
+Header example:
 
 ```
 {
@@ -61,7 +60,7 @@ Example of ByteTiles header:
 
 ### Dictionary
 
-A key-value pair json that matches a tile key with a byte range. An example of tiles dictionary:
+A key-value pair json that matches a tile key with a byte range. Dictionary example:
 
 ```
 {
@@ -90,28 +89,29 @@ when accesing the file in order to read the rest of the data. Empty space are fi
 
 ## File content
 
-The content of a ByteTiles file is the same as the content of a MBTiles file and it is stored as an array of bytes.
+The content of a ByteTiles file MUST be the same as the content of a MBTiles with the following exception:
+
+* The table `metadata` in the MBTiles is parsed to a key-value list in json format.
 
 The columns `tile_column`, `tile_row` and `zoom_level` in the MBTiles file, are used to create a tile key following the XYZ schema.
 
-The column `tile_data` in the MBTiles is written as it is in the ByteTiles. Decompression is OPTIONAL (for example for `pbf` compressed content).
+Decompression for the column `tile_data` in the MBTiles is OPTIONAL (for example for `pbf` compressed content).
 
-The table `metadata` in the MBTiles is parsed to a key-value list in json format.
 
 ## Reading metadata
 
 The flow for reading the `metadata` table in a ByteTiles file is:
 
-1. Read the las 50 bytes to get the byte range of header.
-2. Read header and get the byte range of the key `medatada`.
-3. Read the metadata.
+1. Read the las 50 bytes to get the byte range of *header*.
+2. Read *header* and get the byte range of the key `medatada`.
+3. Read the *metadata*.
 
 ## Reading tiles
 
 The flow for reading a XYZ tile in a ByteTiles file is:
 
-1. Read the las 50 bytes to get the byte range of header.
-2. Read header and get the byte range of the key `tiles_dictionary`.
-3. Read the tiles dictionary and get the byte range for the XYZ key. 
-4. Read the tile.
+1. Read the las 50 bytes to get the byte range of *header*.
+2. Read *header* and get the byte range of the key `tiles_dictionary`.
+3. Read the *tiles dictionary* and get the byte range for the *XYZ* key. 
+4. Read the *tile*.
 

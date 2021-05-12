@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ByteTilesLogo", "ByteTilesL
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.0", "1.0", "{CE48E091-F704-4CBA-888C-A4B4CA550D17}"
 	ProjectSection(SolutionItems) = preProject
-		ByteTilesSpec\1.0\README.md = ByteTilesSpec\1.0\README.md
+		ByteTilesSpec\1.0\spec.md = ByteTilesSpec\1.0\spec.md
 	EndProjectSection
 EndProject
 Global

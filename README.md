@@ -4,18 +4,18 @@
 
 # ByteTiles
 
-File format specification that allows access to the contents of an MBTiles file by byte range.
+File format specification that allows access to the contents of an [MBTiles](https://docs.mapbox.com/help/glossary/mbtiles/) file by byte range.
 
-A [MBTiles](https://docs.mapbox.com/help/glossary/mbtiles/) file contains a SQLite database and needs to be loaded in memory before requesting data. 
+A  MBTiles file contains a SQLite database and needs to be loaded in memory before requesting data. 
 Instead a **ByteTiles** file constains a list of tiles and a dictionary (tile key - byte range) that indicates the position in the file for any tile. 
 The dictionary is thinked to be loaded in a fast memory access (cache or database) for a fast tile reading.
 
 
 ## Bennefits
 
-* Reduce cost: Upload a **ByteTiles** file to [Amazon S3](https://aws.amazon.com/s3/) and then fetch tiles by it range of bytes.
-* Reduce storage size: **ByteTiles** files are 5-10% smaller than **MBTiles** files.
-* Faster update: Instead of extracting the files contained in **MBTiles** and upload them all to S3, **ByteTiles** contains all in a single file.
+* Cost: A **ByteTiles** file can be uploaded in [Amazon S3](https://aws.amazon.com/s3/) and then fetch tiles by it range of bytes.
+* Storage size: A **ByteTiles** files is 5-10% smaller than **MBTiles** file.
+* Updates: Instead of extracting the files contained in **MBTiles** and upload them all to S3, **ByteTiles** contains all in a single file.
 
 
 ## Built With
@@ -26,7 +26,9 @@ The dictionary is thinked to be loaded in a fast memory access (cache or databas
 
 ## Specification
 
-ByteTiles specification is provided in the [ByteTilesSpec](https://github.com/techjb/ByteTiles/tree/master/ByteTilesSpec) folder.
+ByteTiles specification is provided in the *ByteTilesSpec* folder.
+
+* [Version 1.0](https://github.com/techjb/ByteTiles/blob/master/ByteTilesSpec/1.0/spec.md)
 
 ## Examples
 
