@@ -44,19 +44,19 @@ namespace SimpleByteTilesServer.Controler
             return File(bytes, contentType);
         }
 
-        public static byte[] Decompress(byte[] @byte)
+        public static byte[] Decompress(byte[] bytes)
         {
-            MemoryStream memoryStream = new(@byte);
+            MemoryStream memoryStream = new(bytes);
             GZipStream gZipStream = new(memoryStream, CompressionMode.Decompress, true);
-            List<byte> bytes = new();
+            List<byte> list = new();
 
             int bytesRead = gZipStream.ReadByte();
             while (bytesRead != -1)
             {
-                bytes.Add((byte)bytesRead);
+                list.Add((byte)bytesRead);
                 bytesRead = gZipStream.ReadByte();
             }
-            return bytes.ToArray();
+            return list.ToArray();
         }
     }
 }
